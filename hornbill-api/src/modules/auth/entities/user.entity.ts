@@ -6,6 +6,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   role: UserRole;
   isVerified: boolean;
   lastLogin: Date | null;

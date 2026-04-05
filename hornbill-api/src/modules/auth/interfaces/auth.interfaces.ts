@@ -5,3 +5,11 @@ export interface createUserData {
   email: string;
   password: string;
 }
+
+export interface CreateSessionData {
+  userId: string;
+  refreshToken: string;
+  userAgent?: string;
+  ipAddress?: string;
+  expiresAt: Date;
+}

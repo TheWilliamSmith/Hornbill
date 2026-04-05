@@ -1,7 +1,7 @@
 import { User } from '../entities/user.entity';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { createUserData } from '../interfaces/auth.interfaces';
+import { createUserData, CreateSessionData } from '../interfaces/auth.interfaces';
 
 @Injectable()
 export class AuthRepository {
@@ -27,5 +27,17 @@ export class AuthRepository {
     });
 
     return user;
+  }
+
+  async createSession(data: CreateSessionData): Promise<void> {
+    await this.prisma.session.create({
+      data: {
+        userId: data.userId,
+        refreshToken: data.refreshToken,
+        userAgent: data.userAgent,
+        ipAddress: data.ipAddress,
+        expiresAt: data.expiresAt,
+      },
+    });
   }
 }
