@@ -1,0 +1,24 @@
+meta {
+  name: Create Weight Entry
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/weight/entry
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "weight": 65.85,
+    "unit": "KG",
+    "measuredAt": "2026-04-05T08:45:23.775Z"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
