@@ -1,0 +1,27 @@
+meta {
+  name: Signup
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/signup
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "myusername",
+    "firstName": "MyName", 
+    "lastName": "MyLastName",
+    "email": "myemail@gmail.com",
+    "password": "MyPassword123!",
+    "confirmPassword": "MyPassword123!"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
