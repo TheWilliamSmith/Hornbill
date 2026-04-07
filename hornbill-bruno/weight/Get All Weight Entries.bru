@@ -1,0 +1,27 @@
+meta {
+  name: Get All Weight Entries
+  type: http
+  seq: 2
+}
+
+get {
+  url: '''
+    {{baseUrl}}/weight/entries?limit=5&page=3
+    
+'''
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 5
+  page: '''
+    3
+    
+  '''
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

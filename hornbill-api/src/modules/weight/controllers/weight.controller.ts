@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
 import { CreateWeightEntryDto } from '../dto/create-weight-entry.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { WeightService } from '../services/weight.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { GetWeightEntriesQueryDto } from '../dto/get-weight-entries-query.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('weight')
@@ -12,5 +13,10 @@ export class WeightController {
   @Post('entry')
   async create(@Body() dto: CreateWeightEntryDto, @CurrentUser('sub') userId: string) {
     return await this.weightService.createWeightEntry(dto, userId);
+  }
+
+  @Get('entries')
+  async getEntries(@CurrentUser('sub') userId: string, @Query() query: GetWeightEntriesQueryDto) {
+    return await this.weightService.getEntries(userId, query);
   }
 }

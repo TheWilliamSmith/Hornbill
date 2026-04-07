@@ -18,4 +18,35 @@ export class WeightRepository {
       },
     });
   }
+
+  async findManyByUserId(userId: string, page: number, limit: number, from?: Date, to?: Date) {
+    return this.prisma.weightEntry.findMany({
+      where: {
+        userId,
+        ...(from || to
+          ? {
+              measuredAt: {
+                ...(from && { gte: from }),
+                ...(to && { lte: to }),
+              },
+            }
+          : {}),
+      },
+      orderBy: { measuredAt: 'desc' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+  }
+
+  async countByUserId(userId: string, from: Date, to: Date) {
+    return this.prisma.weightEntry.count({
+      where: {
+        userId,
+        measuredAt: {
+          gte: from,
+          lte: to,
+        },
+      },
+    });
+  }
 }
