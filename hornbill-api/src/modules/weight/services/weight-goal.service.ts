@@ -1,10 +1,11 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
-import { WeightGoalMode } from 'src/generated/prisma/enums';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { WeightGoalMode, WeightGoalDirection } from 'src/generated/prisma/enums';
 import { CreateWeightGoalDto } from '../dto/weight-goal-dto/create-weight-goal.dto';
+import { GetWeightGoalsQueryDto } from '../dto/weight-goal-dto/get-weight-goals-query.dto';
 import { WeightGoalRepository } from '../repositories/weight-goal-repository';
 import { WeightGoalMapper } from '../mappers/weight-goal.mapper';
 import { WeightEntryRepository } from '../repositories/weight-entry.repository';
-import { WeightGoalDirection } from 'src/generated/prisma/enums';
+import { PaginationMapper } from 'src/common/mappers/pagination.mapper';
 
 @Injectable()
 export class WeightGoalService {
@@ -49,6 +50,26 @@ export class WeightGoalService {
     );
 
     return WeightGoalMapper.toCreateResponse(goal);
+  }
+
+  async getGoals(userId: string, { page, limit }: GetWeightGoalsQueryDto) {
+    const [goals, total] = await Promise.all([
+      this.repo.findAllByUserId(userId, page, limit),
+      this.repo.countByUserId(userId),
+    ]);
+
+    const mapped = goals.map(WeightGoalMapper.toGetResponse);
+    return PaginationMapper.toPaginatedResponse(mapped, total, page, limit);
+  }
+
+  async getGoal(id: string, userId: string) {
+    const goal = await this.repo.findOneByUserId(id, userId);
+
+    if (!goal) {
+      throw new NotFoundException(`Weight goal with id ${id} not found`);
+    }
+
+    return WeightGoalMapper.toGetResponse(goal);
   }
 }
 

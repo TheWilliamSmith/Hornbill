@@ -23,4 +23,25 @@ export class WeightGoalRepository {
       },
     });
   }
+
+  async findAllByUserId(userId: string, page: number, limit: number): Promise<WeightGoal[]> {
+    return this.prisma.weightGoal.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+  }
+
+  async countByUserId(userId: string): Promise<number> {
+    return this.prisma.weightGoal.count({
+      where: { userId },
+    });
+  }
+
+  async findOneByUserId(id: string, userId: string): Promise<WeightGoal | null> {
+    return this.prisma.weightGoal.findFirst({
+      where: { id, userId },
+    });
+  }
 }

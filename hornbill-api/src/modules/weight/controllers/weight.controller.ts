@@ -17,6 +17,7 @@ import { CurrentUser } from '@common/decorators/current-user.decorator';
 import { GetWeightEntriesQueryDto } from '../dto/weight-entry-dto/get-weight-entries-query.dto';
 import { UpdateWeightEntryDto } from '../dto/weight-entry-dto/update-weight-entry.dto';
 import { CreateWeightGoalDto } from '../dto/weight-goal-dto/create-weight-goal.dto';
+import { GetWeightGoalsQueryDto } from '../dto/weight-goal-dto/get-weight-goals-query.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('weight')
@@ -53,5 +54,15 @@ export class WeightController {
   @Post('goal')
   async createGoal(@Body() dto: CreateWeightGoalDto, @CurrentUser('sub') userId: string) {
     return await this.weightGoalService.createWeightGoal(dto, userId);
+  }
+
+  @Get('goals')
+  async getGoals(@CurrentUser('sub') userId: string, @Query() query: GetWeightGoalsQueryDto) {
+    return await this.weightGoalService.getGoals(userId, query);
+  }
+
+  @Get('goal/:id')
+  async getGoal(@Param('id') id: string, @CurrentUser('sub') userId: string) {
+    return await this.weightGoalService.getGoal(id, userId);
   }
 }

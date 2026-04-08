@@ -1,9 +1,9 @@
 import { WeightGoal } from '../entities/weight.entity';
 import { CreateWeightGoalResponseDto } from '../dto/weight-goal-dto/create-weight-goal-response.dto';
+import { GetWeightGoalResponseDto } from '../dto/weight-goal-dto/get-weight-goal-response.dto';
 
 export class WeightGoalMapper {
-  static toCreateResponse(goal: WeightGoal): CreateWeightGoalResponseDto {
-    const dto = new CreateWeightGoalResponseDto();
+  private static mapGoalFields<T extends GetWeightGoalResponseDto>(dto: T, goal: WeightGoal): T {
     dto.id = goal.id;
     dto.targetWeight = goal.targetWeight;
     dto.unit = goal.unit;
@@ -17,5 +17,13 @@ export class WeightGoalMapper {
     dto.createdAt = goal.createdAt;
     dto.updatedAt = goal.updatedAt;
     return dto;
+  }
+
+  static toCreateResponse(goal: WeightGoal): CreateWeightGoalResponseDto {
+    return WeightGoalMapper.mapGoalFields(new CreateWeightGoalResponseDto(), goal);
+  }
+
+  static toGetResponse(goal: WeightGoal): GetWeightGoalResponseDto {
+    return WeightGoalMapper.mapGoalFields(new GetWeightGoalResponseDto(), goal);
   }
 }
