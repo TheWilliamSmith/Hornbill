@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateWeightEntryDto } from '../dto/create-weight-entry.dto';
 import { WeightRepository } from '../repositories/weight.repository';
 import { GetWeightEntriesQueryDto } from '../dto/get-weight-entries-query.dto';
@@ -35,5 +35,22 @@ export class WeightService {
     const mapped = entries.map(WeightEntryMapper.toWeightEntriesResponse);
 
     return PaginationMapper.toPaginatedResponse(mapped, total, page, limit);
+  }
+
+  async updateWeightEntry(id: string, dto: Partial<CreateWeightEntryDto>, userId: string) {
+    const updatedEntry = await this.repo.updateWeightEntry(id, dto, userId);
+    return WeightEntryMapper.toUpdateResponse(updatedEntry);
+  }
+
+  async deleteWeightEntry(id: string, userId: string) {
+    const isWeigthEntryExists = await this.repo.findById(id, userId);
+
+    if (!isWeigthEntryExists) {
+      throw new NotFoundException(
+        `An error occurred while trying to delete weight entry. Entry not found.`,
+      );
+    }
+
+    await this.repo.deleteWeightEntry(id, userId);
   }
 }

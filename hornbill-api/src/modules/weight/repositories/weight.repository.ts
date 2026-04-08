@@ -49,4 +49,44 @@ export class WeightRepository {
       },
     });
   }
+
+  async updateWeightEntry(
+    id: string,
+    data: Partial<createWeightEntryData>,
+    userId: string,
+  ): Promise<WeightEntry> {
+    return this.prisma.weightEntry.update({
+      where: {
+        id,
+        userId,
+      },
+      data: {
+        weight: data.weight,
+        unit: data.unit,
+        measuredAt: data.measuredAt,
+        note: data.note,
+      },
+    });
+  }
+
+  async deleteWeightEntry(id: string, userId: string): Promise<void> {
+    const result = await this.prisma.weightEntry.deleteMany({
+      where: {
+        id,
+        userId,
+      },
+    });
+    if (result.count === 0) {
+      throw new Error('Weight entry not found or user unauthorized');
+    }
+  }
+
+  async findById(id: string, userId: string): Promise<WeightEntry | null> {
+    return this.prisma.weightEntry.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+  }
 }

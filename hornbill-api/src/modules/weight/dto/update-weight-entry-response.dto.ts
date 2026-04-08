@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { WeightUnit } from 'src/generated/prisma/enums';
 
-export class CreateWeightEntryResponseDto {
+export class UpdateWeightEntryResponseDto {
   @ApiProperty({
     description: 'Unique identifier for the weight entry',
     example: 'clp1234567890abcdef',
