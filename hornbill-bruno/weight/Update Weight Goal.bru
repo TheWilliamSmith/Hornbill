@@ -1,0 +1,22 @@
+meta {
+  name: Update Weight Goal
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/weight/goal/89edfdb8-093e-4ce1-80d1-52b20a7d34f9
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "targetWeight": 70
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

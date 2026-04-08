@@ -13,7 +13,7 @@ import {
   ACCESS_TOKEN_MINUTES,
   REFRESH_TOKEN_SALT_ROUNDS,
   PASSWORD_SALT_ROUNDS,
-} from '../../../common/constants/auth.constants';
+} from '@common/constants/auth.constants';
 
 @Injectable()
 export class AuthService {

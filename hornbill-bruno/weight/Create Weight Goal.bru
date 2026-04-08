@@ -1,0 +1,24 @@
+meta {
+  name: Create Weight Goal
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/weight/goal
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "targetWeight" : 45,
+    "unit": "KG",
+    "mode": "MILESTONE"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
