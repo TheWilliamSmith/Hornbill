@@ -79,10 +79,27 @@ export class CreateWeightGoalResponseDto {
   note?: string;
 
   @ApiProperty({
+    description: 'Date and time when the goal was resolved (achieved or failed)',
+    example: '2024-12-30T00:00:00.000Z',
+    required: false,
+    format: 'date-time',
+    type: String,
+  })
+  resolvedAt?: Date;
+
+  @ApiProperty({
     description: 'Date and time when the goal was created',
     example: '2024-01-15T08:30:00.000Z',
     format: 'date-time',
     type: String,
   })
   createdAt: Date;
+
+  @ApiProperty({
+    description: 'Date and time when the goal was last updated',
+    example: '2024-01-15T08:30:00.000Z',
+    format: 'date-time',
+    type: String,
+  })
+  updatedAt: Date;
 }

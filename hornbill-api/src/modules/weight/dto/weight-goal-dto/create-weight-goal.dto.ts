@@ -40,16 +40,6 @@ export class CreateWeightGoalDto {
   unit: WeightUnit;
 
   @ApiProperty({
-    description: 'Direction of the weight goal',
-    example: 'LOSE',
-    enum: WeightGoalDirection,
-    enumName: 'WeightGoalDirection',
-  })
-  @IsNotEmpty({ message: 'Goal direction is required' })
-  @IsEnum(WeightGoalDirection, { message: 'Direction must be GAIN, LOSE or MAINTAIN' })
-  direction: WeightGoalDirection;
-
-  @ApiProperty({
     description: 'Mode of the weight goal',
     example: 'DEADLINE',
     enum: WeightGoalMode,

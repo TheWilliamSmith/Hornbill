@@ -1,5 +1,5 @@
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
-import { createWeightEntryData } from '../interfaces/weight.interface';
+import { CreateWeightEntryData } from '../interfaces/weight.interface';
 import { Injectable } from '@nestjs/common';
 import { WeightEntry } from '../entities/weight.entity';
 
@@ -7,7 +7,7 @@ import { WeightEntry } from '../entities/weight.entity';
 export class WeightEntryRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createWeightEntry(data: createWeightEntryData, userId: string): Promise<WeightEntry> {
+  async createWeightEntry(data: CreateWeightEntryData, userId: string): Promise<WeightEntry> {
     return this.prisma.weightEntry.create({
       data: {
         userId: userId,
@@ -52,7 +52,7 @@ export class WeightEntryRepository {
 
   async updateWeightEntry(
     id: string,
-    data: Partial<createWeightEntryData>,
+    data: Partial<CreateWeightEntryData>,
     userId: string,
   ): Promise<WeightEntry> {
     return this.prisma.weightEntry.update({
@@ -87,6 +87,13 @@ export class WeightEntryRepository {
         id,
         userId,
       },
+    });
+  }
+
+  async findLatestEntryByUserId(userId: string): Promise<WeightEntry | null> {
+    return this.prisma.weightEntry.findFirst({
+      where: { userId },
+      orderBy: { measuredAt: 'desc' },
     });
   }
 }
