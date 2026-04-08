@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { WeightGoalStatus } from 'src/generated/prisma/enums';
 import { WeightGoal } from '../entities/weight.entity';
-import { CreateWeightGoalData } from '../interfaces/weight.interface';
+import { CreateWeightGoalData, UpdateWeightGoalData } from '../interfaces/weight.interface';
 
 @Injectable()
 export class WeightGoalRepository {
@@ -41,6 +41,31 @@ export class WeightGoalRepository {
 
   async findOneByUserId(id: string, userId: string): Promise<WeightGoal | null> {
     return this.prisma.weightGoal.findFirst({
+      where: { id, userId },
+    });
+  }
+
+  async updateWeightGoal(
+    id: string,
+    data: UpdateWeightGoalData,
+    userId: string,
+  ): Promise<WeightGoal> {
+    return this.prisma.weightGoal.update({
+      where: { id, userId },
+      data: {
+        targetWeight: data.targetWeight,
+        unit: data.unit,
+        direction: data.direction,
+        mode: data.mode,
+        deadline: data.deadline,
+        toleranceWeight: data.toleranceWeight,
+        note: data.note,
+      },
+    });
+  }
+
+  async deleteWeightGoal(id: string, userId: string): Promise<void> {
+    await this.prisma.weightGoal.deleteMany({
       where: { id, userId },
     });
   }

@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/weight/entries?limit=5&page=2
+  url: {{baseUrl}}/weight/entries?page=1
   body: none
   auth: inherit
 }
 
 params:query {
-  limit: 5
-  page: 2
+  page: 1
+  ~limit: 5
 }
 
 settings {

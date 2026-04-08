@@ -16,3 +16,13 @@ export interface CreateWeightGoalData {
   toleranceWeight?: number;
   note?: string;
 }
+
+export interface UpdateWeightGoalData {
+  targetWeight?: number;
+  unit?: WeightUnit;
+  mode?: WeightGoalMode;
+  deadline?: Date;
+  toleranceWeight?: number;
+  direction?: WeightGoalDirection;
+  note?: string;
+}
