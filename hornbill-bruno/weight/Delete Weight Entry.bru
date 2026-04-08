@@ -1,0 +1,15 @@
+meta {
+  name: Delete Weight Entry
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/weight/entry/{{entryId}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Update Weight Entry
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/weight/entry/{{entryId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+      {
+        "weight": 487
+      }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
