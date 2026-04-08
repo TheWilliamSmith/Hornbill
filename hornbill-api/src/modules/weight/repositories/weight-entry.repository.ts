@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { WeightEntry } from '../entities/weight.entity';
 
 @Injectable()
-export class WeightRepository {
+export class WeightEntryRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createWeightEntry(data: createWeightEntryData, userId: string): Promise<WeightEntry> {

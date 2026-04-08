@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateWeightEntryDto } from '../dto/weight-entry-dto/create-weight-entry.dto';
-import { WeightRepository } from '../repositories/weight.repository';
+import { WeightEntryRepository } from '../repositories/weight-entry.repository';
 import { GetWeightEntriesQueryDto } from '../dto/weight-entry-dto/get-weight-entries-query.dto';
 import { WeightEntryMapper } from '../mappers/weight-entry.mapper';
 import { PaginationMapper } from 'src/common/mappers/pagination.mapper';
 
 @Injectable()
 export class WeightService {
-  constructor(private readonly repo: WeightRepository) {}
+  constructor(private readonly repo: WeightEntryRepository) {}
 
   async createWeightEntry(dto: CreateWeightEntryDto, userId: string) {
     const newWeightEntry = await this.repo.createWeightEntry(
