@@ -1,7 +1,7 @@
 import { WeightEntry } from '../entities/weight.entity';
-import { CreateWeightEntryResponseDto } from '../dto/create-weight-entry-response.dto';
-import { GetWeightEntriesResponseDto } from '../dto/get-weight-entries-query-response.dto';
-import { UpdateWeightEntryResponseDto } from '../dto/update-weight-entry-response.dto';
+import { CreateWeightEntryResponseDto } from '../dto/weight-entry-dto/create-weight-entry-response.dto';
+import { GetWeightEntriesResponseDto } from '../dto/weight-entry-dto/get-weight-entries-query-response.dto';
+import { UpdateWeightEntryResponseDto } from '../dto/weight-entry-dto/update-weight-entry-response.dto';
 
 export class WeightEntryMapper {
   static toCreateResponse(weightEntry: WeightEntry): CreateWeightEntryResponseDto {

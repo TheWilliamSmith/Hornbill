@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateWeightEntryDto } from '../dto/create-weight-entry.dto';
+import { CreateWeightEntryDto } from '../dto/weight-entry-dto/create-weight-entry.dto';
 import { WeightRepository } from '../repositories/weight.repository';
-import { GetWeightEntriesQueryDto } from '../dto/get-weight-entries-query.dto';
+import { GetWeightEntriesQueryDto } from '../dto/weight-entry-dto/get-weight-entries-query.dto';
 import { WeightEntryMapper } from '../mappers/weight-entry.mapper';
 import { PaginationMapper } from 'src/common/mappers/pagination.mapper';
 

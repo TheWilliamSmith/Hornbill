@@ -9,12 +9,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateWeightEntryDto } from '../dto/create-weight-entry.dto';
+import { CreateWeightEntryDto } from '../dto/weight-entry-dto/create-weight-entry.dto';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { WeightService } from '../services/weight.service';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
-import { GetWeightEntriesQueryDto } from '../dto/get-weight-entries-query.dto';
-import { UpdateWeightEntryDto } from '../dto/update-weight-entry.dto';
+import { GetWeightEntriesQueryDto } from '../dto/weight-entry-dto/get-weight-entries-query.dto';
+import { UpdateWeightEntryDto } from '../dto/weight-entry-dto/update-weight-entry.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('weight')

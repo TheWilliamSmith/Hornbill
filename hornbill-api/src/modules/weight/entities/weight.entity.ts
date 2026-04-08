@@ -1,7 +1,9 @@
-import { WeightUnit } from 'src/generated/prisma/enums';
-import { WeightGoalDirection } from 'src/generated/prisma/enums';
-import { WeightGoalMode } from 'src/generated/prisma/enums';
-import { WeightGoalStatus } from 'src/generated/prisma/enums';
+import {
+  WeightUnit,
+  WeightGoalDirection,
+  WeightGoalMode,
+  WeightGoalStatus,
+} from 'src/generated/prisma/enums';
 
 export interface WeightEntry {
   id: string;
@@ -22,10 +24,10 @@ export interface WeightGoal {
   direction: WeightGoalDirection;
   mode: WeightGoalMode;
   status: WeightGoalStatus;
-  deadline?: Date;
-  toleranceWeight?: number;
-  note?: string;
-  resolvedAt?: Date;
+  deadline: Date | null;
+  toleranceWeight: number | null;
+  note: string | null;
+  resolvedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
