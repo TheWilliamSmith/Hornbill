@@ -3,6 +3,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { UserMapper } from '../mappers/user.mapper';
 import { GetUserResponse } from '../dto/get-user-response.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserSessionResponseDto } from '../dto/user-session-response.dto';
 
 @Injectable()
 export class UserService {
@@ -31,5 +32,9 @@ export class UserService {
     });
 
     return UserMapper.toGetUserInfoDto(updated);
+  }
+
+  async getSessions(userId: string): Promise<UserSessionResponseDto[]> {
+    return this.userRepository.getActiveSessions(userId);
   }
 }

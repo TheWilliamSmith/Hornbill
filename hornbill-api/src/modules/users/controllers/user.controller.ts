@@ -18,4 +18,9 @@ export class UserController {
   updateMe(@CurrentUser('sub') userId: string, @Body() dto: UpdateUserDto) {
     return this.userService.updateMe(userId, dto);
   }
+
+  @Get('me/sessions')
+  getSessions(@CurrentUser('sub') userId: string) {
+    return this.userService.getSessions(userId);
+  }
 }

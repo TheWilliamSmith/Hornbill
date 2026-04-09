@@ -1,6 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@modules/prisma/services/prisma.service';
 import { User } from '../entities/user.entity';
+import { UserSessionResponseDto } from '../dto/user-session-response.dto';
 
 @Injectable()
 export class UserRepository {
@@ -21,6 +22,15 @@ export class UserRepository {
     return this.prisma.user.update({
       where: { id },
       data,
+    });
+  }
+
+  async getActiveSessions(userId: string): Promise<UserSessionResponseDto[]> {
+    const now = new Date();
+    return this.prisma.session.findMany({
+      where: { userId, expiresAt: { gt: now } },
+      select: { id: true, userAgent: true, ipAddress: true, createdAt: true, expiresAt: true },
+      orderBy: { createdAt: 'desc' },
     });
   }
 }
