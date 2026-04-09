@@ -3,8 +3,10 @@ import type { Request } from 'express';
 import { AuthService } from '../services/auth.service';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { SignupResponseDto } from '../dto/signup-response.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
+import { RefreshTokenResponseDto } from '../dto/refresh-token-response.dto';
 import { AuthSwaggerDecorators } from './auth.swagger';
 
 @Controller('auth')
@@ -26,5 +28,17 @@ export class AuthController {
     const userAgent = req.headers['user-agent'];
     const ipAddress = req.ip;
     return await this.authService.login(dto, userAgent, ipAddress);
+  }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @AuthSwaggerDecorators.Refresh()
+  async refresh(
+    @Body() dto: RefreshTokenDto,
+    @Req() req: Request,
+  ): Promise<RefreshTokenResponseDto> {
+    const userAgent = req.headers['user-agent'];
+    const ipAddress = req.ip;
+    return await this.authService.refreshTokens(dto, userAgent, ipAddress);
   }
 }

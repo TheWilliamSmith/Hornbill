@@ -3,6 +3,13 @@ import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { createUserData, CreateSessionData } from '../interfaces/auth.interfaces';
 
+interface Session {
+  id: string;
+  userId: string;
+  refreshToken: string;
+  expiresAt: Date;
+}
+
 @Injectable()
 export class AuthRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -39,5 +46,20 @@ export class AuthRepository {
         expiresAt: data.expiresAt,
       },
     });
+  }
+
+  async findSessionsByUserId(userId: string): Promise<Session[]> {
+    return this.prisma.session.findMany({
+      where: { userId },
+      select: { id: true, userId: true, refreshToken: true, expiresAt: true },
+    });
+  }
+
+  async deleteSessionById(id: string): Promise<void> {
+    await this.prisma.session.delete({ where: { id } });
+  }
+
+  async findUserById(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { id } });
   }
 }
