@@ -1,7 +1,6 @@
 import { UserRole } from '@src/generated/prisma/enums';
-import { ApiProperty } from '@nestjs/swagger';
 
-export interface UserEntity {
+export interface User {
   id: string;
 
   username: string;
@@ -12,11 +11,15 @@ export interface UserEntity {
 
   email: string;
 
-  password: string;
-
   role: UserRole;
+
+  isVerified: boolean;
+
+  lastLogin: Date | null;
+
+  deletedAt: Date | null;
 
   createdAt: Date;
 
-  updateAt: Date;
+  updatedAt: Date;
 }
