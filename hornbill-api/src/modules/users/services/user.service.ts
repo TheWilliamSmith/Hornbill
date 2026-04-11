@@ -1,9 +1,16 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { UserMapper } from '../mappers/user.mapper';
 import { GetUserResponse } from '../dto/get-user-response.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserSessionResponseDto } from '../dto/user-session-response.dto';
+import { DeleteAccountDto } from '../dto/delete-account.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -36,5 +43,21 @@ export class UserService {
 
   async getSessions(userId: string): Promise<UserSessionResponseDto[]> {
     return this.userRepository.getActiveSessions(userId);
+  }
+
+  async deleteMe(id: string, dto: DeleteAccountDto): Promise<void> {
+    const user = await this.userRepository.findPasswordById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    await this.userRepository.softDeleteUser(id);
   }
 }

@@ -33,4 +33,30 @@ export class UserRepository {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async findPasswordById(id: string): Promise<{ id: string; password: string } | null> {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true, password: true },
+    });
+  }
+
+  async softDeleteUser(id: string): Promise<void> {
+    const timestamp = Date.now();
+
+    await this.prisma.$transaction([
+      this.prisma.session.deleteMany({ where: { userId: id } }),
+      this.prisma.user.update({
+        where: { id },
+        data: {
+          username: `deleted_${timestamp}`,
+          email: `deleted_${timestamp}@deleted.com`,
+          firstName: 'Deleted',
+          lastName: 'User',
+          password: '',
+          deletedAt: new Date(),
+        },
+      }),
+    ]);
+  }
 }

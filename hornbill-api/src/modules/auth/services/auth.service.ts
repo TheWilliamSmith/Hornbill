@@ -16,6 +16,7 @@ import {
   REFRESH_TOKEN_SALT_ROUNDS,
   PASSWORD_SALT_ROUNDS,
 } from '@common/constants/auth.constants';
+import { UserRepository } from '@modules/users/repositories/user.repository';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,7 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async signup(dto: SignupDto): Promise<SignupResponseDto> {
@@ -56,6 +58,10 @@ export class AuthService {
 
     if (!isPasswordValid) throw new UnauthorizedException('Invalid credentials');
 
+    if (user.deletedAt) {
+      throw new UnauthorizedException('Account has been deleted');
+    }
+
     const accessToken = await this.jwtService.signAsync(
       { sub: user.id, email: user.email, role: user.role },
       {
@@ -88,7 +94,11 @@ export class AuthService {
     return AuthMapper.toLoginResponse(accessToken, refreshToken, user);
   }
 
-  async refreshTokens(dto: RefreshTokenDto, userAgent?: string, ipAddress?: string): Promise<RefreshTokenResponseDto> {
+  async refreshTokens(
+    dto: RefreshTokenDto,
+    userAgent?: string,
+    ipAddress?: string,
+  ): Promise<RefreshTokenResponseDto> {
     let payload: { sub: string };
 
     try {
