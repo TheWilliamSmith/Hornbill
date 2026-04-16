@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/ui/Sidebar";
 import Header from "@/components/ui/Header";
+import TokenRefresher from "@/components/auth/TokenRefresher";
 
 const API_URL = process.env.API_URL || "http://localhost:3000";
 
@@ -30,6 +31,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-zinc-50">
+      <TokenRefresher />
       <Sidebar user={user} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />

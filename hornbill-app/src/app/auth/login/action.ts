@@ -26,8 +26,17 @@ export async function loginAction(formData: LoginFormData) {
     maxAge: 60 * 15,
   });
 
+  // Store refresh token in both httpOnly (secure) and non-httpOnly (for API calls)
   (await cookies()).set("refreshToken", data.refreshToken, {
     httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  (await cookies()).set("refreshTokenClient", data.refreshToken, {
+    httpOnly: false,
     secure: true,
     sameSite: "strict",
     path: "/",

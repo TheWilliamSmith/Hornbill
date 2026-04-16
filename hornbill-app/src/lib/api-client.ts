@@ -3,6 +3,7 @@ import {
   getAccessToken,
   removeAccessToken,
   setAccessToken,
+  removeRefreshToken,
 } from "../utils/cookie.utils";
 
 const BASE_URL = getApiBaseUrl();
@@ -51,6 +52,7 @@ const instance: KyInstance = ky.create({
           return ky(request);
         } catch {
           removeAccessToken();
+          removeRefreshToken();
           window.location.href = "/login";
           return response;
         }

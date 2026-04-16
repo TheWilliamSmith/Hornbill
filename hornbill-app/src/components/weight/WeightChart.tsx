@@ -10,7 +10,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
-  ReferenceArea,
 } from "recharts";
 import type { WeightEntry, WeightGoal } from "@/types/weight.type";
 import {
@@ -304,14 +303,6 @@ export default function WeightChart({
             const deadlineDate = formatChartDate(goal.deadline!);
             const color = getGoalColor(goal.direction);
 
-            console.log("Rendering deadline goal:", {
-              id: goal.id,
-              deadline: goal.deadline,
-              deadlineDate,
-              targetWeight: goal.targetWeight,
-              color,
-            });
-
             return (
               <ReferenceLine
                 key={goal.id}
@@ -319,7 +310,6 @@ export default function WeightChart({
                 stroke={color}
                 strokeWidth={3}
                 strokeDasharray="8 4"
-                isFront={true}
                 label={{
                   value: getDeadlineLabel(goal),
                   position: "top",
