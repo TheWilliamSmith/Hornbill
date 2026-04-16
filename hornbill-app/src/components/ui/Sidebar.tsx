@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Activity } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,6 +14,7 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/weight", label: "Weight Tracker", icon: Activity },
 ];
 
 export default function Sidebar({ user }: SidebarProps) {
@@ -27,7 +28,10 @@ export default function Sidebar({ user }: SidebarProps) {
 
       <nav className="flex flex-col gap-1 flex-1">
         {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href;
+          const isActive =
+            href === "/dashboard"
+              ? pathname === href
+              : pathname.startsWith(href);
           return (
             <Link
               key={href}
