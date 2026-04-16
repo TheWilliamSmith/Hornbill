@@ -19,6 +19,17 @@ export default function AddWeightForm({ onSuccess }: AddWeightFormProps) {
   const { addWeight, isLoading, error } = useAddWeight();
   const [success, setSuccess] = useState(false);
 
+  // Format current date for datetime-local input (YYYY-MM-DDTHH:mm)
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   const {
     register,
     handleSubmit,
@@ -31,7 +42,7 @@ export default function AddWeightForm({ onSuccess }: AddWeightFormProps) {
     defaultValues: {
       unit: WeightUnit.KG,
       note: "",
-      measuredAt: "",
+      measuredAt: getCurrentDateTime(),
     },
   });
 
