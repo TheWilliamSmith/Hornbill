@@ -36,6 +36,57 @@ export function useAddWeight() {
   return { addWeight, isLoading, error };
 }
 
+export function useUpdateWeight() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const updateWeight = async (
+    id: string,
+    data: Partial<CreateWeightEntryRequest>,
+  ): Promise<WeightEntry | null> => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await weightService.updateEntry(id, data);
+      return result;
+    } catch (err: unknown) {
+      const body = await (
+        err as { response?: { json?: () => Promise<{ message?: string }> } }
+      )?.response?.json?.();
+      setError(body?.message || "Failed to update weight entry");
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { updateWeight, isLoading, error };
+}
+
+export function useDeleteWeight() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const deleteWeight = async (id: string): Promise<boolean> => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await weightService.deleteEntry(id);
+      return true;
+    } catch (err: unknown) {
+      const body = await (
+        err as { response?: { json?: () => Promise<{ message?: string }> } }
+      )?.response?.json?.();
+      setError(body?.message || "Failed to delete weight entry");
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { deleteWeight, isLoading, error };
+}
+
 export function useAddGoal() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
