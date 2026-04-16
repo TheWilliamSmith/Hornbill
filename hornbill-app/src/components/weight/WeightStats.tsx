@@ -135,9 +135,6 @@ export default function WeightStats({ entries, goals }: WeightStatsProps) {
             className="relative bg-white rounded-2xl border border-black/[0.06] p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-md hover:border-black/10 transition-all duration-300"
           >
             <div
-              className={`absolute top-0 right-0 w-16 h-16 rounded-full bg-gradient-to-br ${stat.gradient} opacity-[0.06] -translate-y-4 translate-x-4 group-hover:opacity-[0.1] transition-opacity`}
-            />
-            <div
               className={`w-8 h-8 rounded-xl ${stat.bgLight} flex items-center justify-center mb-3`}
             >
               <Icon size={15} className={stat.textColor} />
