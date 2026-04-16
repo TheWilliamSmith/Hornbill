@@ -95,7 +95,11 @@ export default function WeightPage() {
             All entries
           </span>
         </div>
-        <WeightChart entries={entries} isLoading={entriesLoading} />
+        <WeightChart
+          entries={entries}
+          goals={goals}
+          isLoading={entriesLoading}
+        />
       </div>
 
       {/* Bottom grid — entries + goals */}
