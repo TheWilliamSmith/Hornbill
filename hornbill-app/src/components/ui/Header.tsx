@@ -8,6 +8,7 @@ const routeLabels: Record<string, string> = {
   dashboard: "Dashboard",
   weight: "Weight Tracker",
   crypto: "Crypto Tracker",
+  tasks: "Tâches",
   notifications: "Notifications",
   settings: "Paramètres",
   profile: "Profile",

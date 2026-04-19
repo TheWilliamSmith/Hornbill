@@ -1,0 +1,22 @@
+meta {
+  name: Create Sublist
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/tasks/lists/{{listId}}/sublists
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Fruits & Légumes"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

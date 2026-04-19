@@ -1,0 +1,15 @@
+meta {
+  name: Delete Task
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{baseUrl}}/tasks/tasks/{{taskId}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

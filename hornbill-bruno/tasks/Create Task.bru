@@ -1,0 +1,22 @@
+meta {
+  name: Create Task
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/tasks/lists/{{listId}}/tasks
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "Acheter du lait"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

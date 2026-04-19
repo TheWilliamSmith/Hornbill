@@ -7,6 +7,7 @@ import { WeightModule } from '@modules/weight/weight.module';
 import { UserModule } from '@modules/users/user.module';
 import { CryptoModule } from '@modules/crypto/crypto.module';
 import { NotificationModule } from '@modules/notification/notification.module';
+import { TasksModule } from '@modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { NotificationModule } from '@modules/notification/notification.module';
     UserModule,
     CryptoModule,
     NotificationModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [],

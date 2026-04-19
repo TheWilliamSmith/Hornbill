@@ -1,0 +1,15 @@
+meta {
+  name: Delete List
+  type: http
+  seq: 9
+}
+
+delete {
+  url: {{baseUrl}}/tasks/lists/{{listId}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

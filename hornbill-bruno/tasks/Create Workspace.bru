@@ -1,0 +1,23 @@
+meta {
+  name: Create Workspace
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/tasks/workspaces
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Maison",
+    "icon": "🏠"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

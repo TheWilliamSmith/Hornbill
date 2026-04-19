@@ -1,0 +1,22 @@
+meta {
+  name: Reorder Tasks
+  type: http
+  seq: 14
+}
+
+patch {
+  url: {{baseUrl}}/tasks/lists/{{listId}}/reorder
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ids": ["task-id-1", "task-id-2", "task-id-3"]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

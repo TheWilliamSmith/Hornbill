@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   Activity,
   Bitcoin,
+  CheckSquare,
   Settings,
   Bell,
   LogOut,
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/weight", label: "Weight Tracker", icon: Activity },
   { href: "/dashboard/crypto", label: "Crypto Tracker", icon: Bitcoin },
+  { href: "/dashboard/tasks", label: "Tâches", icon: CheckSquare },
 ];
 
 const bottomItems = [
