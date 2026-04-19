@@ -11,10 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  removeAccessToken,
-  removeRefreshToken,
-} from "@/utils/cookie.utils";
+import { removeAccessToken, removeRefreshToken } from "@/utils/cookie.utils";
 
 interface SidebarProps {
   user: {
@@ -127,7 +124,10 @@ export default function Sidebar({ user }: SidebarProps) {
         })}
 
         {/* Profile card */}
-        <div className="relative pt-3 mt-2 border-t border-black/[0.08]" ref={menuRef}>
+        <div
+          className="relative pt-3 mt-2 border-t border-black/[0.08]"
+          ref={menuRef}
+        >
           <button
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-black/[0.03] transition-colors cursor-pointer"

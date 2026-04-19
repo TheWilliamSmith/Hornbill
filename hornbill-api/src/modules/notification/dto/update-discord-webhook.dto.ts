@@ -10,7 +10,7 @@ export class UpdateDiscordWebhookDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^https:\/\/discord\.com\/api\/webhooks\/\d+\/.+$/, {
+  @Matches(/^https:\/\/(discord\.com|discordapp\.com)\/api\/webhooks\/\d+\/.+$/, {
     message: 'Invalid Discord webhook URL format',
   })
   webhookUrl?: string | null;

@@ -1,6 +1,13 @@
 "use client";
 
-import { Bell, CheckCheck, Trash2, Crosshair, Check, Loader2 } from "lucide-react";
+import {
+  Bell,
+  CheckCheck,
+  Trash2,
+  Crosshair,
+  Check,
+  Loader2,
+} from "lucide-react";
 import { useNotifications } from "@/hooks/use-notifications";
 import { NotificationType } from "@/types/notification.type";
 import type { Notification } from "@/types/notification.type";
@@ -61,9 +68,7 @@ function NotificationRow({
           <div className="min-w-0">
             <p
               className={`text-sm leading-tight ${
-                notification.isRead
-                  ? "text-black/60"
-                  : "text-black font-medium"
+                notification.isRead ? "text-black/60" : "text-black font-medium"
               }`}
             >
               {notification.title}

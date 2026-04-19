@@ -24,7 +24,12 @@ const tabs: { key: Tab; label: string; icon: typeof User; danger?: boolean }[] =
   [
     { key: "profile", label: "Profil", icon: User },
     { key: "integrations", label: "Intégrations", icon: Puzzle },
-    { key: "danger", label: "Zone de danger", icon: AlertTriangle, danger: true },
+    {
+      key: "danger",
+      label: "Zone de danger",
+      icon: AlertTriangle,
+      danger: true,
+    },
   ];
 
 export default function SettingsPage() {
