@@ -1,0 +1,34 @@
+enum HabitFrequency {
+    DAILY
+    WEEKLY
+}
+
+model Habit {
+    id             String         @id @default(uuid())
+    userId         String         @map("user_id")
+    name           String
+    description    String?
+    icon           String?
+    frequency      HabitFrequency @default(DAILY)
+    targetPerWeek  Int?           @map("target_per_week")
+    isArchived     Boolean        @default(false) @map("is_archived")
+    position       Int            @default(0)
+    createdAt      DateTime       @default(now()) @map("created_at")
+    updatedAt      DateTime       @updatedAt @map("updated_at")
+    user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    logs           HabitLog[]
+
+    @@map("habits")
+}
+
+model HabitLog {
+    id        String   @id @default(uuid())
+    habitId   String   @map("habit_id")
+    date      DateTime @db.Date
+    note      String?
+    createdAt DateTime @default(now()) @map("created_at")
+    habit     Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+    @@unique([habitId, date])
+    @@map("habit_logs")
+}

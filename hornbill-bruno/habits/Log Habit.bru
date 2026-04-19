@@ -1,0 +1,23 @@
+meta {
+  name: Log Habit
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/habits/{{habitId}}/log
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "date": "2026-04-19",
+    "note": "Séance jambes"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Restore Habit
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/habits/{{habitId}}/restore
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

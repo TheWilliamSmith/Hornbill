@@ -1,0 +1,16 @@
+meta {
+  name: Get Logs
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/habits/{{habitId}}/logs?from=2026-01-01&to=2026-12-31
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

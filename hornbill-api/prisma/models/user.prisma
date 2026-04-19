@@ -15,6 +15,7 @@ model User {
     cryptoPositions CryptoPosition[]
     notifications   Notification[]
     taskWorkspaces  TaskWorkspace[]
+    habits          Habit[]
     discordWebhookUrl String?        @map("discord_webhook_url")
     createdAt       DateTime         @default(now()) @map("created_at")
     updatedAt     DateTime      @updatedAt @map("updated_at")
