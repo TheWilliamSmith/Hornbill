@@ -49,4 +49,10 @@ export const cryptoService = {
       prices: Record<string, number>;
       lastFetchTime: string | null;
     }>("crypto/prices"),
+
+  refreshPrices: () =>
+    apiClient.post<{
+      prices: Record<string, number>;
+      lastFetchTime: string | null;
+    }>("crypto/prices/refresh"),
 };

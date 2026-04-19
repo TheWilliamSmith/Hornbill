@@ -173,11 +173,13 @@ export function usePrices() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPrices = async () => {
+  const fetchPrices = async (forceRefresh = false) => {
     setIsLoading(true);
     setError(null);
     try {
-      const result = await cryptoService.getPrices();
+      const result = forceRefresh
+        ? await cryptoService.refreshPrices()
+        : await cryptoService.getPrices();
       setPrices(result.prices);
       setLastFetchTime(result.lastFetchTime);
     } catch {

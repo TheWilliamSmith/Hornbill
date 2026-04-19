@@ -10,12 +10,14 @@ import {
 } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import CryptoStats from "@/components/crypto/CryptoStats";
+import NextTargetCard from "@/components/crypto/NextTargetCard";
 import PositionsTable from "@/components/crypto/PositionsTable";
 import PositionSidebar from "@/components/crypto/PositionSidebar";
 import AddPositionForm from "@/components/crypto/AddPositionForm";
 import SellForm from "@/components/crypto/SellForm";
 import AddTargetForm from "@/components/crypto/AddTargetForm";
 import ConfirmDeleteModal from "@/components/crypto/ConfirmDeleteModal";
+import LivePrices from "@/components/crypto/LivePrices";
 import { computeDashboard } from "@/lib/mock-crypto";
 import {
   useCryptoPositions,
@@ -28,12 +30,21 @@ import { CryptoPosition, SellTarget } from "@/types/crypto.type";
 export default function CryptoPage() {
   // Data (API)
   const { positions, fetchPositions, isLoading } = useCryptoPositions();
-  const { prices, fetchPrices } = usePrices();
+  const {
+    prices,
+    lastFetchTime,
+    fetchPrices,
+    isLoading: isPricesLoading,
+  } = usePrices();
   const { deletePosition: deletePositionApi } = useDeletePosition();
   const { deleteTarget: deleteTargetApi } = useDeleteTarget();
   const [refreshKey, setRefreshKey] = useState(0);
 
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
+
+  const refreshPrices = useCallback(async () => {
+    await fetchPrices(true);
+  }, [fetchPrices]);
 
   useEffect(() => {
     fetchPositions({ limit: 100 });
@@ -127,6 +138,17 @@ export default function CryptoPage() {
 
       {/* Stats */}
       <CryptoStats dashboard={dashboard} />
+
+      {/* Next Target + Live Prices */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <NextTargetCard dashboard={dashboard} />
+        <LivePrices
+          prices={prices}
+          lastFetchTime={lastFetchTime}
+          onRefresh={refreshPrices}
+          isRefreshing={isPricesLoading}
+        />
+      </div>
 
       {/* Positions table */}
       <div className="bg-white rounded-2xl border border-black/[0.06] shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-visible">
