@@ -8,8 +8,9 @@ const routeLabels: Record<string, string> = {
   dashboard: "Dashboard",
   weight: "Weight Tracker",
   crypto: "Crypto Tracker",
+  notifications: "Notifications",
+  settings: "Paramètres",
   profile: "Profile",
-  settings: "Settings",
 };
 
 export default function Header() {
