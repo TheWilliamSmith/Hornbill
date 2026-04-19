@@ -1,0 +1,45 @@
+meta {
+  name: Create Position with Custom Targets
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/crypto/positions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "symbol": "ETH",
+    "platform": "binance",
+    "buyPrice": 3450.75,
+    "quantity": 0.5,
+    "fees": 1.75,
+    "boughtAt": "2026-04-18T10:15:00.000Z",
+    "sellTargets": [
+      {
+        "triggerPercent": 25,
+        "sellPercent": 15
+      },
+      {
+        "triggerPercent": 50,
+        "sellPercent": 20
+      },
+      {
+        "triggerPercent": 80,
+        "sellPercent": 30
+      },
+      {
+        "triggerPercent": 120,
+        "sellPercent": 20
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

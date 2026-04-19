@@ -9,10 +9,11 @@ model User {
     isVerified    Boolean       @default(false) @map("is_verified")
     lastLogin     DateTime?     @map("last_login")
     deletedAt     DateTime?     @map("deleted_at")
-    sessions      Session[]
-    weightEntries WeightEntry[]
-    weightGoals   WeightGoal[]
-    createdAt     DateTime      @default(now()) @map("created_at")
+    sessions        Session[]
+    weightEntries   WeightEntry[]
+    weightGoals     WeightGoal[]
+    cryptoPositions CryptoPosition[]
+    createdAt       DateTime         @default(now()) @map("created_at")
     updatedAt     DateTime      @updatedAt @map("updated_at")
 
     @@map("users")

@@ -1,0 +1,64 @@
+model CryptoPosition {
+    id             String               @id @default(uuid())
+    userId         String               @map("user_id")
+    symbol         String
+    platform       String
+    buyPrice       Float                @map("buy_price")
+    quantity       Float
+    fees           Float                @default(0)
+    costBasis      Float                @map("cost_basis")
+    boughtAt       DateTime             @map("bought_at")
+    status         CryptoPositionStatus @default(OPEN)
+    createdAt      DateTime             @default(now()) @map("created_at")
+    updatedAt      DateTime             @updatedAt() @map("updated_at")
+    user           User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sellTargets    SellTarget[]
+    sellExecutions SellExecution[]
+
+    @@map("crypto_positions")
+}
+
+model SellTarget {
+    id              String           @id @default(uuid())
+    positionId      String           @map("position_id")
+    triggerPercent   Float            @map("trigger_percent")
+    sellPercent      Float            @map("sell_percent")
+    targetPrice     Float            @map("target_price")
+    status          SellTargetStatus @default(PENDING)
+    triggeredAt     DateTime?        @map("triggered_at")
+    createdAt       DateTime         @default(now()) @map("created_at")
+    updatedAt       DateTime         @updatedAt() @map("updated_at")
+    position        CryptoPosition   @relation(fields: [positionId], references: [id], onDelete: Cascade)
+    sellExecutions  SellExecution[]
+
+    @@map("sell_targets")
+}
+
+model SellExecution {
+    id            String         @id @default(uuid())
+    positionId    String         @map("position_id")
+    targetId      String?        @map("target_id")
+    quantitySold  Float          @map("quantity_sold")
+    sellPrice     Float          @map("sell_price")
+    fees          Float          @default(0)
+    realizedPnl   Float          @map("realized_pnl")
+    executedAt    DateTime       @default(now()) @map("executed_at")
+    createdAt     DateTime       @default(now()) @map("created_at")
+    updatedAt     DateTime       @updatedAt() @map("updated_at")
+    position      CryptoPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
+    target        SellTarget?    @relation(fields: [targetId], references: [id], onDelete: SetNull)
+
+    @@map("sell_executions")
+}
+
+enum CryptoPositionStatus {
+    OPEN
+    PARTIALLY_SOLD
+    CLOSED
+}
+
+enum SellTargetStatus {
+    PENDING
+    TRIGGERED
+    EXECUTED
+}

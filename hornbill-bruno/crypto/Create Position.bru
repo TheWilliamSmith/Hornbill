@@ -1,0 +1,27 @@
+meta {
+  name: Create Position
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/crypto/positions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "symbol": "BTC",
+    "platform": "kraken",
+    "buyPrice": 95000.50,
+    "quantity": 0.01,
+    "fees": 2.50,
+    "boughtAt": "2026-04-15T14:30:00.000Z"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
