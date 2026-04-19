@@ -140,18 +140,6 @@ export default function CryptoPage() {
       {/* Stats */}
       <CryptoStats dashboard={dashboard} />
 
-      {/* Pie Chart + Next Target + Live Prices */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <AssetsPieChart positions={positions} prices={prices} />
-        <NextTargetCard dashboard={dashboard} />
-        <LivePrices
-          prices={prices}
-          lastFetchTime={lastFetchTime}
-          onRefresh={refreshPrices}
-          isRefreshing={isPricesLoading}
-        />
-      </div>
-
       {/* Positions table */}
       <div className="bg-white rounded-2xl border border-black/[0.06] shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-visible">
         <div className="flex items-center justify-between px-6 pt-5 pb-3">
@@ -170,6 +158,18 @@ export default function CryptoPage() {
           onSell={handleSell}
           onEdit={openSidebar}
           onDelete={handleDelete}
+        />
+      </div>
+
+      {/* Pie Chart + Next Target + Live Prices */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <AssetsPieChart positions={positions} prices={prices} />
+        <NextTargetCard dashboard={dashboard} />
+        <LivePrices
+          prices={prices}
+          lastFetchTime={lastFetchTime}
+          onRefresh={refreshPrices}
+          isRefreshing={isPricesLoading}
         />
       </div>
 

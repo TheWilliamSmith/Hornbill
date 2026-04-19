@@ -9,7 +9,7 @@ const SYMBOL_TO_COINGECKO_ID: Record<string, string> = {
   BTC: 'bitcoin',
   ETH: 'ethereum',
   SOL: 'solana',
-  POL: 'matic-network',
+  POL: 'polygon-ecosystem-token',
   MATIC: 'matic-network',
   LINK: 'chainlink',
   ADA: 'cardano',

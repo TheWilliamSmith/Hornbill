@@ -23,6 +23,7 @@ import {
   SellExecution,
   SellTargetStatus,
 } from "@/types/crypto.type";
+import CryptoIcon from "@/components/crypto/CryptoIcon";
 
 interface PositionSidebarProps {
   position: CryptoPosition | null;
@@ -154,9 +155,7 @@ export default function PositionSidebar({
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-black/[0.06]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-black/[0.04] flex items-center justify-center text-sm font-bold text-black/70">
-              {position.symbol.slice(0, 2)}
-            </div>
+            <CryptoIcon symbol={position.symbol} size="lg" />
             <div>
               <h2 className="text-lg font-semibold text-black tracking-tight">
                 {position.symbol}

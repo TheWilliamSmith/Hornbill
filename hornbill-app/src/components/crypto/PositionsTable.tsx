@@ -7,6 +7,7 @@ import {
 } from "@/types/crypto.type";
 import { Eye, Plus, ArrowDownToLine, Pencil, Trash2 } from "lucide-react";
 import DropdownMenu from "@/components/ui/DropdownMenu";
+import CryptoIcon from "@/components/crypto/CryptoIcon";
 
 interface PositionsTableProps {
   positions: CryptoPosition[];
@@ -109,9 +110,7 @@ export default function PositionsTable({
               >
                 <td className="py-3.5 pl-4">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-black/[0.04] flex items-center justify-center text-xs font-bold text-black/70">
-                      {pos.symbol.slice(0, 2)}
-                    </div>
+                    <CryptoIcon symbol={pos.symbol} size="md" />
                     <span className="text-sm font-semibold text-black">
                       {pos.symbol}
                     </span>

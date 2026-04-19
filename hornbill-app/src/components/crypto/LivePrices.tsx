@@ -1,6 +1,7 @@
 "use client";
 
 import { RefreshCw } from "lucide-react";
+import CryptoIcon from "@/components/crypto/CryptoIcon";
 
 interface LivePricesProps {
   prices: Record<string, number>;
@@ -79,9 +80,7 @@ export default function LivePrices({
               className="flex items-center justify-between py-2 border-b border-black/[0.04] last:border-0"
             >
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-black/[0.04] flex items-center justify-center text-[10px] font-bold text-black/70">
-                  {symbol.slice(0, 2)}
-                </div>
+                <CryptoIcon symbol={symbol} size="sm" />
                 <span className="text-sm font-medium text-black">{symbol}</span>
               </div>
               <span className="text-sm font-semibold text-black">

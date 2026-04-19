@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "cryptocurrency-icons": "^0.18.1",
     "ky": "^2.0.1",
     "lucide-react": "^1.8.0",
     "next": "16.2.2",
