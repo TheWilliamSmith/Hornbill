@@ -1,4 +1,4 @@
-import { CryptoPositionStatus, SellTargetStatus } from 'src/generated/prisma/enums';
+import { CryptoPositionStatus, SellTargetStatus } from '@src/generated/prisma/enums';
 
 export interface CryptoPosition {
   id: string;

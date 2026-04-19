@@ -3,7 +3,7 @@ import {
   WeightGoalDirection,
   WeightGoalMode,
   WeightGoalStatus,
-} from 'src/generated/prisma/enums';
+} from '@src/generated/prisma/enums';
 
 export interface WeightEntry {
   id: string;

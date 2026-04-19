@@ -4,7 +4,7 @@ import {
   WeightGoalDirection,
   WeightGoalMode,
   WeightGoalStatus,
-} from 'src/generated/prisma/enums';
+} from '@src/generated/prisma/enums';
 
 export class UpdateWeightGoalResponseDto {
   @ApiProperty({

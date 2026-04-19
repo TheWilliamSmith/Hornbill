@@ -19,6 +19,7 @@ import AddTargetForm from "@/components/crypto/AddTargetForm";
 import ConfirmDeleteModal from "@/components/crypto/ConfirmDeleteModal";
 import LivePrices from "@/components/crypto/LivePrices";
 import AssetsPieChart from "@/components/crypto/AssetsPieChart";
+import DiscordSettings from "@/components/crypto/DiscordSettings";
 import { computeDashboard } from "@/lib/mock-crypto";
 import {
   useCryptoPositions,

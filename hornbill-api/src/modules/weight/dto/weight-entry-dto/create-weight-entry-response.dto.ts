@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { WeightUnit } from 'src/generated/prisma/enums';
+import { WeightUnit } from '@src/generated/prisma/enums';
 
 export class CreateWeightEntryResponseDto {
   @ApiProperty({

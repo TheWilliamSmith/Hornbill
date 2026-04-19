@@ -68,11 +68,24 @@ export const apiClient = {
   post: <T>(url: string, json?: unknown, options?: Options) =>
     instance.post(url, { ...options, json }).json<T>(),
 
-  patch: <T>(url: string, json?: unknown, options?: Options) =>
-    instance.patch(url, { ...options, json }).json<T>(),
+  patch: <T = void>(url: string, json?: unknown, options?: Options) => {
+    const response = instance.patch(url, { ...options, json });
+    return response.then(async (r) => {
+      if (r.status === 204) return undefined as T;
+      return r.json() as Promise<T>;
+    });
+  },
 
-  delete: <T>(url: string, options?: Options) =>
-    instance.delete(url, options).json<T>(),
+  put: <T>(url: string, json?: unknown, options?: Options) =>
+    instance.put(url, { ...options, json }).json<T>(),
+
+  delete: <T = void>(url: string, options?: Options) => {
+    const response = instance.delete(url, options);
+    return response.then(async (r) => {
+      if (r.status === 204) return undefined as T;
+      return r.json() as Promise<T>;
+    });
+  },
 };
 
 function getApiBaseUrl(): string {

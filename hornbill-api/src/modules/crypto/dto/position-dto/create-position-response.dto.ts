@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CryptoPositionStatus, SellTargetStatus } from 'src/generated/prisma/enums';
+import { CryptoPositionStatus, SellTargetStatus } from '@src/generated/prisma/enums';
 
 export class SellTargetResponseDto {
   @ApiProperty({ example: 'uuid' })

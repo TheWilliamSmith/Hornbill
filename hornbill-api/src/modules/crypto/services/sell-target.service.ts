@@ -3,7 +3,7 @@ import { SellTargetRepository } from '../repositories/sell-target.repository';
 import { CryptoPositionRepository } from '../repositories/crypto-position.repository';
 import { CreateSellTargetDto } from '../dto/sell-target-dto/create-sell-target.dto';
 import { UpdateSellTargetDto } from '../dto/sell-target-dto/update-sell-target.dto';
-import { SellTargetStatus } from 'src/generated/prisma/enums';
+import { SellTargetStatus } from '@src/generated/prisma/enums';
 
 @Injectable()
 export class SellTargetService {

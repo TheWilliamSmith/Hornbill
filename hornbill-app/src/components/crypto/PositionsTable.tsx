@@ -125,10 +125,10 @@ export default function PositionsTable({
                   )}
                 </td>
                 <td className="py-3.5 text-right text-sm text-black/70">
-                  {formatEur(pos.costBasis)}€
+                  {pos.costBasis}€
                 </td>
                 <td className="py-3.5 text-right text-sm font-medium text-black">
-                  {formatEur(currentPrice)}€
+                  {currentPrice}€
                 </td>
                 <td className="py-3.5 text-right">
                   <span

@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { WeightGoalMode, WeightGoalDirection, WeightGoalStatus } from 'src/generated/prisma/enums';
+import { WeightGoalMode, WeightGoalDirection, WeightGoalStatus } from '@src/generated/prisma/enums';
 import { CreateWeightGoalDto } from '../dto/weight-goal-dto/create-weight-goal.dto';
 import { UpdateWeightGoalDto } from '../dto/weight-goal-dto/update-weight-goal.dto';
 import { GetWeightGoalsQueryDto } from '../dto/weight-goal-dto/get-weight-goals-query.dto';

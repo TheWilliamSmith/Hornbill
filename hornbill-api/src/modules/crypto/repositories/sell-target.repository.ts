@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { SellTarget } from '../entities/crypto.entity';
-import { SellTargetStatus } from 'src/generated/prisma/enums';
+import { SellTargetStatus } from '@src/generated/prisma/enums';
 
 @Injectable()
 export class SellTargetRepository {

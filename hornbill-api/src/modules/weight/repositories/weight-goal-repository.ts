@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
-import { WeightGoalStatus } from 'src/generated/prisma/enums';
+import { WeightGoalStatus } from '@src/generated/prisma/enums';
 import { WeightGoal } from '../entities/weight.entity';
 import { CreateWeightGoalData, UpdateWeightGoalData } from '../interfaces/weight.interface';
 

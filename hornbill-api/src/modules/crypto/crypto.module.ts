@@ -6,8 +6,10 @@ import { CryptoPositionService } from './services/crypto-position.service';
 import { SellTargetService } from './services/sell-target.service';
 import { PriceFetcherService } from './services/price-fetcher.service';
 import { TargetCheckerService } from './services/target-checker.service';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
+  imports: [NotificationModule],
   controllers: [CryptoController],
   providers: [
     CryptoPositionRepository,

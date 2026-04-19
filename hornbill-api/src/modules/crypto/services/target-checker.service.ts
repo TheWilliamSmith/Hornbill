@@ -1,12 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
-import { SellTargetStatus, CryptoPositionStatus } from 'src/generated/prisma/enums';
+import { SellTargetStatus, CryptoPositionStatus } from '@src/generated/prisma/enums';
+import { NotificationService } from 'src/modules/notification/services/notification.service';
 
 @Injectable()
 export class TargetCheckerService {
   private readonly logger = new Logger(TargetCheckerService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   /**
    * Vérifie tous les targets PENDING et les déclenche si le prix actuel >= prix cible
@@ -27,6 +31,7 @@ export class TargetCheckerService {
           position: {
             select: {
               id: true,
+              userId: true,
               symbol: true,
               status: true,
             },
@@ -67,8 +72,16 @@ export class TargetCheckerService {
               `(target: ${target.targetPrice.toFixed(2)}€, current: ${currentPrice.toFixed(2)}€)`,
           );
 
-          // TODO: Envoyer une notification ici
-          // await this.notificationService.sendTargetTriggered(target);
+          // Envoyer la notification (in-app + Discord si configuré)
+          await this.notificationService.notifyTargetTriggered(target.position.userId, {
+            symbol: target.position.symbol,
+            triggerPercent: target.triggerPercent,
+            sellPercent: target.sellPercent,
+            targetPrice: target.targetPrice,
+            currentPrice,
+            positionId: target.position.id,
+            targetId: target.id,
+          });
         }
       }
 

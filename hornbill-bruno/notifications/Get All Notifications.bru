@@ -1,0 +1,20 @@
+meta {
+  name: Get All Notifications
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/notifications?limit=30
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 30
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

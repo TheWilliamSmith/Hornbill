@@ -1,0 +1,22 @@
+meta {
+  name: Set Discord Webhook
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/notifications/discord
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "webhookUrl": "https://discord.com/api/webhooks/1234567890/abcdefghijk"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

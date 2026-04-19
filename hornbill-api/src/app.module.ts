@@ -6,6 +6,7 @@ import { PrismaModule } from '@modules/prisma/prisma.module';
 import { WeightModule } from '@modules/weight/weight.module';
 import { UserModule } from '@modules/users/user.module';
 import { CryptoModule } from '@modules/crypto/crypto.module';
+import { NotificationModule } from '@modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CryptoModule } from '@modules/crypto/crypto.module';
     WeightModule,
     UserModule,
     CryptoModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],

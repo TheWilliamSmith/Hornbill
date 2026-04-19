@@ -13,6 +13,8 @@ model User {
     weightEntries   WeightEntry[]
     weightGoals     WeightGoal[]
     cryptoPositions CryptoPosition[]
+    notifications   Notification[]
+    discordWebhookUrl String?        @map("discord_webhook_url")
     createdAt       DateTime         @default(now()) @map("created_at")
     updatedAt     DateTime      @updatedAt @map("updated_at")
 

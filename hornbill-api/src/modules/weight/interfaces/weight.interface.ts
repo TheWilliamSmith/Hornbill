@@ -1,4 +1,4 @@
-import { WeightUnit, WeightGoalDirection, WeightGoalMode } from 'src/generated/prisma/enums';
+import { WeightUnit, WeightGoalDirection, WeightGoalMode } from '@src/generated/prisma/enums';
 
 export interface CreateWeightEntryData {
   weight: number;

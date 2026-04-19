@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { WeightUnit, WeightGoalDirection, WeightGoalMode, WeightGoalStatus } from 'src/generated/prisma/enums';
+import {
+  WeightUnit,
+  WeightGoalDirection,
+  WeightGoalMode,
+  WeightGoalStatus,
+} from '@src/generated/prisma/enums';
 
 export class GetWeightGoalResponseDto {
   @ApiProperty({

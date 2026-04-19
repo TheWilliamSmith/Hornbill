@@ -1,4 +1,4 @@
-import { WeightUnit } from 'src/generated/prisma/enums';
+import { WeightUnit } from '@src/generated/prisma/enums';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {

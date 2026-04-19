@@ -1,0 +1,16 @@
+meta {
+  name: Mark All Read
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/notifications/read-all
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

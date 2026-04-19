@@ -2,10 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import Breadcrumb from "./Breadcrumb";
+import NotificationBell from "./NotificationBell";
 
 const routeLabels: Record<string, string> = {
   dashboard: "Dashboard",
   weight: "Weight Tracker",
+  crypto: "Crypto Tracker",
   profile: "Profile",
   settings: "Settings",
 };
@@ -37,7 +39,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-10 bg-white border-b border-black/[0.06] px-8 py-4">
-      <Breadcrumb items={breadcrumbs} />
+      <div className="flex items-center justify-between">
+        <Breadcrumb items={breadcrumbs} />
+        <NotificationBell />
+      </div>
     </header>
   );
 }
