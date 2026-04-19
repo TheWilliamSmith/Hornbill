@@ -96,3 +96,12 @@ export interface UpdateSellTargetRequest {
   triggerPercent?: number;
   sellPercent?: number;
 }
+
+export interface CreateSellExecutionRequest {
+  positionId: string;
+  targetId?: string;
+  quantitySold: number;
+  sellPrice: number;
+  fees?: number;
+  executedAt?: string;
+}

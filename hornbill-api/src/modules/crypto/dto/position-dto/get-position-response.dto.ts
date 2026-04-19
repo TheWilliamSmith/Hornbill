@@ -24,6 +24,29 @@ export class SellTargetListItemDto {
   createdAt: Date;
 }
 
+export class SellExecutionListItemDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty({ required: false })
+  targetId?: string;
+
+  @ApiProperty()
+  quantitySold: number;
+
+  @ApiProperty()
+  sellPrice: number;
+
+  @ApiProperty()
+  fees: number;
+
+  @ApiProperty()
+  realizedPnl: number;
+
+  @ApiProperty()
+  executedAt: Date;
+}
+
 export class GetPositionResponseDto {
   @ApiProperty()
   id: string;
@@ -54,6 +77,9 @@ export class GetPositionResponseDto {
 
   @ApiProperty({ type: [SellTargetListItemDto] })
   sellTargets: SellTargetListItemDto[];
+
+  @ApiProperty({ type: [SellExecutionListItemDto] })
+  sellExecutions: SellExecutionListItemDto[];
 
   @ApiProperty()
   createdAt: Date;

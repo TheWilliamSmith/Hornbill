@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CryptoPositionStatus, SellTargetStatus } from '@src/generated/prisma/enums';
+import { SellExecutionListItemDto } from './get-position-response.dto';
 
 export class SellTargetResponseDto {
   @ApiProperty({ example: 'uuid' })
@@ -54,6 +55,9 @@ export class CreatePositionResponseDto {
 
   @ApiProperty({ type: [SellTargetResponseDto] })
   sellTargets: SellTargetResponseDto[];
+
+  @ApiProperty({ type: [SellExecutionListItemDto] })
+  sellExecutions: SellExecutionListItemDto[];
 
   @ApiProperty()
   createdAt: Date;

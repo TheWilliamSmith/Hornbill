@@ -4,7 +4,9 @@ import type {
   CreateCryptoPositionRequest,
   CreateSellTargetRequest,
   UpdateSellTargetRequest,
+  CreateSellExecutionRequest,
   SellTarget,
+  SellExecution,
   PaginatedResponse,
 } from "@/types/crypto.type";
 
@@ -41,6 +43,19 @@ export const cryptoService = {
 
   deleteTarget: (targetId: string) =>
     apiClient.delete(`crypto/targets/${encodeURIComponent(targetId)}`),
+
+  // ─── Sell Executions ────────────────────────────────────
+
+  createExecution: (data: CreateSellExecutionRequest) =>
+    apiClient.post<SellExecution>("crypto/executions", data),
+
+  getExecutions: (positionId: string) =>
+    apiClient.get<SellExecution[]>(
+      `crypto/positions/${encodeURIComponent(positionId)}/executions`,
+    ),
+
+  deleteExecution: (executionId: string) =>
+    apiClient.delete(`crypto/executions/${encodeURIComponent(executionId)}`),
 
   // ─── Prices ─────────────────────────────────────────────
 

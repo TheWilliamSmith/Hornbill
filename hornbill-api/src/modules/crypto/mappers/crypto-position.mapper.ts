@@ -1,4 +1,4 @@
-import { CryptoPositionWithTargets } from '../entities/crypto.entity';
+import { CryptoPositionFull, SellExecution } from '../entities/crypto.entity';
 import {
   CreatePositionResponseDto,
   SellTargetResponseDto,
@@ -6,6 +6,7 @@ import {
 import {
   GetPositionResponseDto,
   SellTargetListItemDto,
+  SellExecutionListItemDto,
 } from '../dto/position-dto/get-position-response.dto';
 import { SellTarget } from '../entities/crypto.entity';
 
@@ -34,7 +35,19 @@ export class CryptoPositionMapper {
     return dto;
   }
 
-  static toCreateResponse(position: CryptoPositionWithTargets): CreatePositionResponseDto {
+  private static mapExecution(exec: SellExecution): SellExecutionListItemDto {
+    const dto = new SellExecutionListItemDto();
+    dto.id = exec.id;
+    dto.targetId = exec.targetId ?? undefined;
+    dto.quantitySold = exec.quantitySold;
+    dto.sellPrice = exec.sellPrice;
+    dto.fees = exec.fees;
+    dto.realizedPnl = exec.realizedPnl;
+    dto.executedAt = exec.executedAt;
+    return dto;
+  }
+
+  static toCreateResponse(position: CryptoPositionFull): CreatePositionResponseDto {
     const dto = new CreatePositionResponseDto();
     dto.id = position.id;
     dto.symbol = position.symbol;
@@ -46,12 +59,13 @@ export class CryptoPositionMapper {
     dto.boughtAt = position.boughtAt;
     dto.status = position.status;
     dto.sellTargets = position.sellTargets.map(CryptoPositionMapper.mapTarget);
+    dto.sellExecutions = position.sellExecutions.map(CryptoPositionMapper.mapExecution);
     dto.createdAt = position.createdAt;
     dto.updatedAt = position.updatedAt;
     return dto;
   }
 
-  static toGetResponse(position: CryptoPositionWithTargets): GetPositionResponseDto {
+  static toGetResponse(position: CryptoPositionFull): GetPositionResponseDto {
     const dto = new GetPositionResponseDto();
     dto.id = position.id;
     dto.symbol = position.symbol;
@@ -63,6 +77,7 @@ export class CryptoPositionMapper {
     dto.boughtAt = position.boughtAt;
     dto.status = position.status;
     dto.sellTargets = position.sellTargets.map(CryptoPositionMapper.mapTargetListItem);
+    dto.sellExecutions = position.sellExecutions.map(CryptoPositionMapper.mapExecution);
     dto.createdAt = position.createdAt;
     dto.updatedAt = position.updatedAt;
     return dto;

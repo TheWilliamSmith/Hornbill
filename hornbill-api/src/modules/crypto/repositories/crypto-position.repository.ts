@@ -1,17 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { CreateCryptoPositionData, CreateSellTargetData } from '../interfaces/crypto.interface';
-import { CryptoPositionWithTargets } from '../entities/crypto.entity';
+import { CryptoPositionFull } from '../entities/crypto.entity';
 
 @Injectable()
 export class CryptoPositionRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  private readonly defaultInclude = {
+    sellTargets: { orderBy: { triggerPercent: 'asc' as const } },
+    sellExecutions: { orderBy: { executedAt: 'desc' as const } },
+  };
+
   async createPositionWithTargets(
     data: CreateCryptoPositionData,
     targets: CreateSellTargetData[],
     userId: string,
-  ): Promise<CryptoPositionWithTargets> {
+  ): Promise<CryptoPositionFull> {
     return this.prisma.cryptoPosition.create({
       data: {
         userId,
@@ -30,7 +35,7 @@ export class CryptoPositionRepository {
           })),
         },
       },
-      include: { sellTargets: { orderBy: { triggerPercent: 'asc' } } },
+      include: this.defaultInclude,
     });
   }
 
@@ -38,10 +43,10 @@ export class CryptoPositionRepository {
     userId: string,
     page: number,
     limit: number,
-  ): Promise<CryptoPositionWithTargets[]> {
+  ): Promise<CryptoPositionFull[]> {
     return this.prisma.cryptoPosition.findMany({
       where: { userId },
-      include: { sellTargets: { orderBy: { triggerPercent: 'asc' } } },
+      include: this.defaultInclude,
       orderBy: { boughtAt: 'desc' },
       skip: (page - 1) * limit,
       take: limit,
@@ -54,10 +59,10 @@ export class CryptoPositionRepository {
     });
   }
 
-  async findByIdAndUserId(id: string, userId: string): Promise<CryptoPositionWithTargets | null> {
+  async findByIdAndUserId(id: string, userId: string): Promise<CryptoPositionFull | null> {
     return this.prisma.cryptoPosition.findFirst({
       where: { id, userId },
-      include: { sellTargets: { orderBy: { triggerPercent: 'asc' } } },
+      include: this.defaultInclude,
     });
   }
 
