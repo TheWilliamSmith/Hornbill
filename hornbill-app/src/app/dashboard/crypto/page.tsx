@@ -16,26 +16,28 @@ import AddPositionForm from "@/components/crypto/AddPositionForm";
 import SellForm from "@/components/crypto/SellForm";
 import AddTargetForm from "@/components/crypto/AddTargetForm";
 import ConfirmDeleteModal from "@/components/crypto/ConfirmDeleteModal";
-import { computeDashboard, MOCK_PRICES } from "@/lib/mock-crypto";
+import { computeDashboard } from "@/lib/mock-crypto";
 import {
   useCryptoPositions,
   useDeletePosition,
   useDeleteTarget,
+  usePrices,
 } from "@/hooks/use-crypto";
 import { CryptoPosition, SellTarget } from "@/types/crypto.type";
 
 export default function CryptoPage() {
   // Data (API)
   const { positions, fetchPositions, isLoading } = useCryptoPositions();
+  const { prices, fetchPrices } = usePrices();
   const { deletePosition: deletePositionApi } = useDeletePosition();
   const { deleteTarget: deleteTargetApi } = useDeleteTarget();
-  const prices = MOCK_PRICES; // TODO: replace with price-fetcher API
   const [refreshKey, setRefreshKey] = useState(0);
 
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   useEffect(() => {
     fetchPositions({ limit: 100 });
+    fetchPrices();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 

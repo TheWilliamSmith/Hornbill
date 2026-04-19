@@ -1,0 +1,15 @@
+meta {
+  name: Refresh Prices
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{base_url}}/crypto/prices/refresh
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}

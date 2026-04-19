@@ -4,6 +4,8 @@ import { CryptoPositionRepository } from './repositories/crypto-position.reposit
 import { SellTargetRepository } from './repositories/sell-target.repository';
 import { CryptoPositionService } from './services/crypto-position.service';
 import { SellTargetService } from './services/sell-target.service';
+import { PriceFetcherService } from './services/price-fetcher.service';
+import { TargetCheckerService } from './services/target-checker.service';
 
 @Module({
   controllers: [CryptoController],
@@ -12,6 +14,8 @@ import { SellTargetService } from './services/sell-target.service';
     SellTargetRepository,
     CryptoPositionService,
     SellTargetService,
+    PriceFetcherService,
+    TargetCheckerService,
   ],
 })
 export class CryptoModule {}

@@ -13,6 +13,7 @@ import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
 import { CryptoPositionService } from '../services/crypto-position.service';
 import { SellTargetService } from '../services/sell-target.service';
+import { PriceFetcherService } from '../services/price-fetcher.service';
 import { CreateCryptoPositionDto } from '../dto/position-dto/create-position.dto';
 import { GetPositionsQueryDto } from '../dto/position-dto/get-positions-query.dto';
 import { CreateSellTargetDto } from '../dto/sell-target-dto/create-sell-target.dto';
@@ -24,6 +25,7 @@ export class CryptoController {
   constructor(
     private readonly positionService: CryptoPositionService,
     private readonly sellTargetService: SellTargetService,
+    private readonly priceFetcher: PriceFetcherService,
   ) {}
 
   // ─── Positions ──────────────────────────────────────────
@@ -71,5 +73,24 @@ export class CryptoController {
   @Delete('targets/:targetId')
   async deleteSellTarget(@Param('targetId') targetId: string, @CurrentUser('sub') userId: string) {
     return await this.sellTargetService.deleteTarget(targetId, userId);
+  }
+
+  // ─── Prices ─────────────────────────────────────────────
+
+  @Get('prices')
+  async getPrices() {
+    return {
+      prices: this.priceFetcher.getAllPrices(),
+      lastFetchTime: this.priceFetcher.getLastFetchTime(),
+    };
+  }
+
+  @Post('prices/refresh')
+  async refreshPrices() {
+    await this.priceFetcher.forceFetch();
+    return {
+      prices: this.priceFetcher.getAllPrices(),
+      lastFetchTime: this.priceFetcher.getLastFetchTime(),
+    };
   }
 }

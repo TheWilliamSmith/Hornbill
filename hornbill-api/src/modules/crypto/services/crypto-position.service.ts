@@ -20,7 +20,7 @@ export class CryptoPositionService {
       positionId: '', // will be set by Prisma nested create
       triggerPercent: t.triggerPercent,
       sellPercent: t.sellPercent,
-      targetPrice: parseFloat((costBasis * (1 + t.triggerPercent / 100)).toFixed(2)),
+      targetPrice: parseFloat((costBasis * (1 + t.triggerPercent / 100)).toFixed(8)),
     }));
 
     const position = await this.repo.createPositionWithTargets(
@@ -30,7 +30,7 @@ export class CryptoPositionService {
         buyPrice: dto.buyPrice,
         quantity: dto.quantity,
         fees,
-        costBasis: parseFloat(costBasis.toFixed(2)),
+        costBasis: parseFloat(costBasis.toFixed(8)),
         boughtAt: dto.boughtAt,
       },
       targets,

@@ -41,4 +41,12 @@ export const cryptoService = {
 
   deleteTarget: (targetId: string) =>
     apiClient.delete(`crypto/targets/${encodeURIComponent(targetId)}`),
+
+  // ─── Prices ─────────────────────────────────────────────
+
+  getPrices: () =>
+    apiClient.get<{
+      prices: Record<string, number>;
+      lastFetchTime: string | null;
+    }>("crypto/prices"),
 };

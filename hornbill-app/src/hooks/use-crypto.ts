@@ -164,3 +164,28 @@ export function useDeleteTarget() {
 
   return { deleteTarget, isLoading, error };
 }
+
+// ─── Prices ─────────────────────────────────────────────
+
+export function usePrices() {
+  const [prices, setPrices] = useState<Record<string, number>>({});
+  const [lastFetchTime, setLastFetchTime] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchPrices = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await cryptoService.getPrices();
+      setPrices(result.prices);
+      setLastFetchTime(result.lastFetchTime);
+    } catch {
+      setError("Failed to load prices");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { prices, lastFetchTime, fetchPrices, isLoading, error };
+}
