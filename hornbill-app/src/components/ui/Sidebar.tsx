@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Activity } from "lucide-react";
+import { LayoutDashboard, Activity, Bitcoin } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,6 +15,7 @@ interface SidebarProps {
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/weight", label: "Weight Tracker", icon: Activity },
+  { href: "/dashboard/crypto", label: "Crypto Tracker", icon: Bitcoin },
 ];
 
 export default function Sidebar({ user }: SidebarProps) {

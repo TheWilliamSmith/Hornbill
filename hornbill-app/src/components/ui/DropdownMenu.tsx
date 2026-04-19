@@ -46,7 +46,7 @@ export default function DropdownMenu({ items }: DropdownMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 min-w-[140px] bg-white rounded-lg border border-black/10 shadow-lg py-1 z-20">
+        <div className="absolute right-0 top-full mt-1 min-w-[140px] bg-white rounded-lg border border-black/10 shadow-lg py-1 z-50">
           {items.map((item, index) => (
             <button
               key={index}
