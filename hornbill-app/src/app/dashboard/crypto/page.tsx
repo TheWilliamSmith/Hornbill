@@ -18,6 +18,7 @@ import SellForm from "@/components/crypto/SellForm";
 import AddTargetForm from "@/components/crypto/AddTargetForm";
 import ConfirmDeleteModal from "@/components/crypto/ConfirmDeleteModal";
 import LivePrices from "@/components/crypto/LivePrices";
+import AssetsPieChart from "@/components/crypto/AssetsPieChart";
 import { computeDashboard } from "@/lib/mock-crypto";
 import {
   useCryptoPositions,
@@ -139,8 +140,9 @@ export default function CryptoPage() {
       {/* Stats */}
       <CryptoStats dashboard={dashboard} />
 
-      {/* Next Target + Live Prices */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Pie Chart + Next Target + Live Prices */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <AssetsPieChart positions={positions} prices={prices} />
         <NextTargetCard dashboard={dashboard} />
         <LivePrices
           prices={prices}
