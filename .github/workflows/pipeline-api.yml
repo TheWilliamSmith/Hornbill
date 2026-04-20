@@ -63,7 +63,7 @@ jobs:
           roleId: ${{ secrets.VAULT_SECRET_ID }}
           secretId: ${{ secrets.VAULT_SECRET_VALUE }}
           secrets: |
-            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_KEY_ID | AWS_SECRET_ACCESS_KEY
+            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_KEY_ID | AWS_ACCESS_KEY_ID
             hornbill-secret/data/hornbill-api/aws AWS_ACCESS_TOKEN | AWS_ACCESS_TOKEN
             hornbill-secret/data/hornbill-api/aws AWS_ECR_REPOSITORY | AWS_ECR_REPOSITORY
 
