@@ -1,0 +1,35 @@
+name: CICD Hornbill Pipeline Api
+
+on:
+  push:
+    branches: *
+    path:
+      - 'hornbill-api/**'
+      - .github/workflows/pipeline-api.yml
+  pull_request:
+    branches: *
+
+env:
+  NODE_VERSION: 22.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up PNPM
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Api 
+        run: pnpm run build
