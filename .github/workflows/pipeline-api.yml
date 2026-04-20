@@ -90,8 +90,8 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: Dockerfile
+          context: ./hornbill-api
+          file: ./hornbill-api/Dockerfile
           push: true
           tags: |
             ${{ steps.aws-credentials.outputs.image_uri }}:${{ steps.vars.outputs.short_sha }}
