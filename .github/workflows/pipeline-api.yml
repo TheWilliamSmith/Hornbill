@@ -63,9 +63,9 @@ jobs:
           roleId: ${{ secrets.VAULT_SECRET_ID }}
           secretId: ${{ secrets.VAULT_SECRET_VALUE }}
           secrets: |
-            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_KEY_ID | AWS_ACCESS_KEY_ID
-            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_TOKEN | AWS_ACCESS_TOKEN
-            hornbill-secret/data/hornbill-api/aws AWS_ECR_REPOSITORY | AWS_ECR_REPOSITORY
+            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_KEY_ID | AWS_ACCESS_KEY_ID ;
+            hornbill-secret/data/hornbill-api/aws AWS_ACCESS_TOKEN | AWS_ACCESS_TOKEN ;
+            hornbill-secret/data/hornbill-api/aws AWS_ECR_REPOSITORY | AWS_ECR_REPOSITORY ;
 
       - name: Get Commit Sha
         id: vars
