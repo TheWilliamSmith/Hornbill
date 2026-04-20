@@ -2,12 +2,12 @@ name: CICD Hornbill Pipeline App
 
 on:
   push:
-    branches: *
-    path:
-      - 'hornbill-app/**'
+    branches: "*"
+    paths:
+      - "hornbill-app/**"
       - .github/workflows/pipeline-app.yml
   pull_request:
-    branches: *
+    branches: "*"
 
 env:
   NODE_VERSION: 22.0.0

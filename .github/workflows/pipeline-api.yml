@@ -2,12 +2,12 @@ name: CICD Hornbill Pipeline Api
 
 on:
   push:
-    branches: *
-    path:
-      - 'hornbill-api/**'
+    branches: "*"
+    paths:
+      - "hornbill-api/**"
       - .github/workflows/pipeline-api.yml
   pull_request:
-    branches: *
+    branches: "*"
 
 env:
   NODE_VERSION: 22.0.0
@@ -31,5 +31,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Api 
+      - name: Build Api
         run: pnpm run build
