@@ -1,4 +1,5 @@
 export type HabitFrequency = "DAILY" | "WEEKLY";
+export type NotifyType = "PUSH" | "EMAIL" | "DISCORD";
 
 export interface Habit {
   id: string;
@@ -7,6 +8,9 @@ export interface Habit {
   icon?: string;
   frequency: HabitFrequency;
   targetPerWeek?: number;
+  reminderTime?: string | null;
+  reminderDays: number[];
+  notifyTypes: NotifyType[];
   isArchived: boolean;
   position: number;
   createdAt: string;
@@ -54,6 +58,9 @@ export interface CreateHabitRequest {
   icon?: string;
   frequency?: HabitFrequency;
   targetPerWeek?: number;
+  reminderTime?: string;
+  reminderDays?: number[];
+  notifyTypes?: NotifyType[];
 }
 
 export interface UpdateHabitRequest {
@@ -62,6 +69,9 @@ export interface UpdateHabitRequest {
   icon?: string;
   frequency?: HabitFrequency;
   targetPerWeek?: number;
+  reminderTime?: string | null;
+  reminderDays?: number[];
+  notifyTypes?: NotifyType[];
   position?: number;
 }
 

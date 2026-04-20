@@ -3,6 +3,12 @@ enum HabitFrequency {
     WEEKLY
 }
 
+enum NotifyType {
+    PUSH
+    EMAIL
+    DISCORD
+}
+
 model Habit {
     id             String         @id @default(uuid())
     userId         String         @map("user_id")
@@ -11,6 +17,9 @@ model Habit {
     icon           String?
     frequency      HabitFrequency @default(DAILY)
     targetPerWeek  Int?           @map("target_per_week")
+    reminderTime   String?        @map("reminder_time")
+    reminderDays   Int[]          @default([]) @map("reminder_days")
+    notifyTypes    NotifyType[]   @default([]) @map("notify_types")
     isArchived     Boolean        @default(false) @map("is_archived")
     position       Int            @default(0)
     createdAt      DateTime       @default(now()) @map("created_at")
