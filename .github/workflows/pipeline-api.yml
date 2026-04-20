@@ -85,7 +85,7 @@ jobs:
       - name: Extract AWS Credentials
         id: aws-credentials
         run: |
-          echo "image_uri=${{ steps.ecr-credentials.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY }}" >> $GITHUB_OUTPUT
+          echo "image_uri=${{ steps.ecr-credentials.outputs.registry }}/${{ env.AWS_ECR_REPOSITORY }}" >> $GITHUB_OUTPUT
 
       - name: Build Docker Image
         uses: docker/build-push-action@v5
