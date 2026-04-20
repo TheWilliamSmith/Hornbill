@@ -1,0 +1,24 @@
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform lock file (à committer si tu veux des versions reproductibles)
+.terraform.lock.hcl
+
+# State files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Plan files
+*.tfplan
+*.tfplan.*
+
+# Variables sensibles
+*.tfvars
+*.tfvars.json
+!example.tfvars
+!*.tfvars.example
+
+# CLI config
+.terraformrc
+terraform.rc
