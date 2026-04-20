@@ -10,7 +10,8 @@ on:
     branches: "*"
 
 env:
-  NODE_VERSION: 22.0.0
+  NODE_VERSION: "24.13.0"
+  PNPM_VERSION: "10.29.3"
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
         working-directory: hornbill-api
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -28,14 +29,16 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Set up PNPM
-        run: npm install -g pnpm
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install Dependencies
+        run: pnpm install
 
-      - name: Generate Prisma Client
+      - name: Generate Prisma
         run: pnpm prisma generate
 
-      - name: Build Api
+      - name: Run Build
         run: pnpm run build
