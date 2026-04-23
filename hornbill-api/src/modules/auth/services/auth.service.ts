@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from '../dto/signup.dto';
@@ -62,6 +62,10 @@ export class AuthService {
       throw new UnauthorizedException('Account has been deleted');
     }
 
+    if (!user.isActive) {
+      throw new ForbiddenException('Compte désactivé. Contactez l\'administrateur.');
+    }
+
     const accessToken = await this.jwtService.signAsync(
       { sub: user.id, email: user.email, role: user.role },
       {
@@ -90,6 +94,8 @@ export class AuthService {
       ipAddress,
       expiresAt,
     });
+
+    await this.authRepository.updateLastLogin(user.id);
 
     return AuthMapper.toLoginResponse(accessToken, refreshToken, user);
   }

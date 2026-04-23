@@ -9,6 +9,7 @@ import { CryptoModule } from '@modules/crypto/crypto.module';
 import { NotificationModule } from '@modules/notification/notification.module';
 import { TasksModule } from '@modules/tasks/tasks.module';
 import { HabitsModule } from '@modules/habits/habits.module';
+import { AdminModule } from '@modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HabitsModule } from '@modules/habits/habits.module';
     NotificationModule,
     TasksModule,
     HabitsModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],

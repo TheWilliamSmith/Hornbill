@@ -62,4 +62,11 @@ export class AuthRepository {
   async findUserById(id: string): Promise<User | null> {
     return this.prisma.user.findUnique({ where: { id } });
   }
+
+  async updateLastLogin(id: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id },
+      data: { lastLogin: new Date() },
+    });
+  }
 }

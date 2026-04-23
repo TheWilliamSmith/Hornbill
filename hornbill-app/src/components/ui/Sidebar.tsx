@@ -10,6 +10,7 @@ import {
   Settings,
   Bell,
   LogOut,
+  ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -20,6 +21,7 @@ interface SidebarProps {
     username: string;
     firstName: string;
     lastName: string;
+    role?: string;
   };
 }
 
@@ -108,6 +110,21 @@ export default function Sidebar({ user }: SidebarProps) {
 
       {/* Bottom section */}
       <div className="space-y-1">
+        {/* Admin link */}
+        {user.role === "ADMIN" && (
+          <Link
+            href="/admin/users"
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+              pathname.startsWith("/admin")
+                ? "bg-black text-white"
+                : "text-black/60 hover:bg-black/5 hover:text-black"
+            }`}
+          >
+            <ShieldCheck size={16} />
+            <span>Admin</span>
+          </Link>
+        )}
+
         {/* Bottom nav items */}
         {bottomItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname.startsWith(href);
