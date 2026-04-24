@@ -148,6 +148,7 @@ jobs:
           EOF
 
       - name: Setup Docker Compose File
+        working-directory: deploy
         run: mv docker-compose.preprod.yml docker-compose.yml
 
       - name: Setup Env File
