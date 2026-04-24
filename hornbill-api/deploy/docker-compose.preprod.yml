@@ -2,8 +2,6 @@ services:
   hornbill-api-preprod:
     image: 423671572921.dkr.ecr.eu-west-3.amazonaws.com/hornbill-api-docker-repo:${IMAGE_VERSION}
     container_name: hornbill-api-preprod
-    ports:
-      - 9090:3000
     environment:
       - NODE_ENV=production
     networks:
