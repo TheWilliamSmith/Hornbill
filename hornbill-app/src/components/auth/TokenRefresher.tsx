@@ -8,8 +8,7 @@ import {
   setRefreshToken,
 } from "@/utils/cookie.utils";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+const BASE_URL = "/api/proxy";
 
 // Refresh token every 10 minutes (token expires after 15 minutes)
 const REFRESH_INTERVAL = 10 * 60 * 1000; // 10 minutes in milliseconds

@@ -16,9 +16,6 @@ RUN pnpm install --frozen-lockfile
 
 FROM base AS build
 
-ARG NEXT_PUBLIC_API_BASE_URL
-ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
-
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=dependencies /app/package.json ./
 COPY --from=dependencies /app/pnpm-lock.yaml ./

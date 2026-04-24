@@ -6,7 +6,7 @@ import {
   removeRefreshToken,
 } from "../utils/cookie.utils";
 
-const BASE_URL = getApiBaseUrl();
+const BASE_URL = "/api/proxy";
 
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
@@ -87,13 +87,3 @@ export const apiClient = {
     });
   },
 };
-
-function getApiBaseUrl(): string {
-  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
-    return process.env.NEXT_PUBLIC_API_BASE_URL;
-  } else {
-    throw new Error(
-      "NEXT_PUBLIC_API_BASE_URL environment variable is not defined",
-    );
-  }
-}
