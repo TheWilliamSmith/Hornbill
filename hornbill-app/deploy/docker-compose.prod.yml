@@ -1,0 +1,13 @@
+services:
+  hornbill-app-prod:
+    image: 423671572921.dkr.ecr.eu-west-3.amazonaws.com/hornbill-app-docker-repo:${IMAGE_VERSION}
+    container_name: hornbill-app-prod
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - hornbill-network-prod
+
+networks:
+  hornbill-network-prod:
+    external: true
