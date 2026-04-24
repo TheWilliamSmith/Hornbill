@@ -126,11 +126,11 @@ jobs:
           roleId: ${{ secrets.VAULT_ROLE_ID }}
           secretId: ${{ secrets.VAULT_SECRET_ID }}
           secrets: |
-            hornbill-secret/data/hornbill-api/aws DEPLOY_HOST | DEPLOY_HOST ;
-            hornbill-secret/data/hornbill-api/aws DEPLOY_PATH_PREPROD | DEPLOY_PATH_PREPROD ;
-            hornbill-secret/data/hornbill-api/aws ENV_FILE_PREPROD | ENV_FILE_PREPROD ;
-            hornbill-secret/data/hornbill-api/aws DEPLOY_USER | DEPLOY_USER ;
-            hornbill-secret/data/hornbill-api/aws SSH_PRIVATE_KEY | SSH_PRIVATE_KEY ;
+            hornbill-secret/data/hornbill-api/deploy DEPLOY_HOST | DEPLOY_HOST ;
+            hornbill-secret/data/hornbill-api/deploy DEPLOY_PATH_PREPROD | DEPLOY_PATH_PREPROD ;
+            hornbill-secret/data/hornbill-api/deploy ENV_FILE_PREPROD | ENV_FILE_PREPROD ;
+            hornbill-secret/data/hornbill-api/deploy DEPLOY_USER | DEPLOY_USER ;
+            hornbill-secret/data/hornbill-api/deploy SSH_PRIVATE_KEY | SSH_PRIVATE_KEY ;
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.4
