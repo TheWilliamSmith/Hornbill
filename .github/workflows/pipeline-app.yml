@@ -61,6 +61,7 @@ jobs:
             hornbill-secret/data/hornbill-app/aws AWS_ACCESS_KEY_ID | AWS_ACCESS_KEY_ID ;
             hornbill-secret/data/hornbill-app/aws AWS_ACCESS_TOKEN | AWS_ACCESS_TOKEN ;
             hornbill-secret/data/hornbill-app/aws AWS_ECR_REPOSITORY | AWS_ECR_REPOSITORY ;
+            hornbill-secret/data/hornbill-app/app NEXT_PUBLIC_API_BASE_URL | NEXT_PUBLIC_API_BASE_URL ;
 
       - name: Get Commit Sha
         id: vars
@@ -88,6 +89,8 @@ jobs:
           context: ./hornbill-app
           file: ./hornbill-app/Dockerfile
           push: true
+          build-args: |
+            NEXT_PUBLIC_API_BASE_URL=${{ env.NEXT_PUBLIC_API_BASE_URL }}
           tags: |
             ${{ steps.aws-credentials.outputs.image_uri }}:${{ steps.vars.outputs.short_sha }}
             ${{ steps.aws-credentials.outputs.image_uri }}:latest
