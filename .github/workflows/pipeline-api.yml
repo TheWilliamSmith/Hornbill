@@ -114,7 +114,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get Commit Sha
-        id: var
+        id: vars
         run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Import Secret From Vault
@@ -141,7 +141,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           cat >> ~/.ssh/config << EOF
-          Host deploy 
+          Host server 
             HostName ${{ env.DEPLOY_HOST }}
             User ${{ env.DEPLOY_USER }}
             StrictHostKeyChecking no
@@ -157,17 +157,15 @@ jobs:
           touch .env
           echo "${{ env.ENV_FILE_PREPROD }}" > .env
           echo "" >> .env
-          echo "IMAGE_VERSION=${{ steps.var.outputs.short_sha }}" >> .env
+          echo "IMAGE_VERSION=${{ steps.vars.outputs.short_sha }}" >> .env
 
       - name: Copy Files to Server
-        working-directory: deploy
-        run: |
-          rsync -avz .env docker-compose.yml Makefile deploy:${{ env.DEPLOY_PATH_PREPROD }}
+        run: cd deploy && rsync -avz .env docker-compose.yml Makefile server:${{ env.DEPLOY_PATH_PREPROD }}
 
       - name: Login to Docker AWS ECR
         run: |
-          ssh deploy "AWS_PROFILE=hornbill aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 423671572921.dkr.ecr.eu-west-3.amazonaws.com"
+          ssh server "AWS_PROFILE=hornbill aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 423671572921.dkr.ecr.eu-west-3.amazonaws.com"
 
       - name: Deploy Application
         run: |
-          ssh deploy "cd ${{ env.DEPLOY_PATH_PREPROD }} && make deploy"
+          ssh server "cd ${{ env.DEPLOY_PATH_PREPROD }} && make deploy"
