@@ -7,6 +7,17 @@ services:
     networks:
       - hornbill-network-prod
 
+  hornbill-database-prod:
+    container_name: hornbill-database-prod
+    image: postgres:15
+    env_file: .env
+    volumes:
+      - ${DATABASE_DATA_PATH}:/var/lib/postgresql/data
+    expose:
+      - 5432
+    networks:
+      - hornbill-network-prod
+
 networks:
   hornbill-network-prod:
     external: true

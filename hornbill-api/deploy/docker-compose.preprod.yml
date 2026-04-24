@@ -7,6 +7,17 @@ services:
     networks:
       - hornbill-network-preprod
 
+  hornbill-database-preprod:
+    container_name: hornbill-database-preprod
+    image: postgres:15
+    env_file: .env
+    volumes:
+      - ${DATABASE_DATA_PATH}:/var/lib/postgresql/data
+    expose:
+      - 5432
+    networks:
+      - hornbill-network-preprod
+
 networks:
   hornbill-network-preprod:
     external: true
