@@ -6,16 +6,39 @@ import { LoginFormData } from "@/lib/schemas/auth.schema";
 const API_URL = process.env.API_URL || "http://localhost:3000";
 
 export async function loginAction(formData: LoginFormData) {
-  const res = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+  } catch {
+    throw new Error("Unable to reach the server. Please try again.");
+  }
 
-  const data = await res.json();
+  let data: {
+    accessToken?: string;
+    refreshToken?: string;
+    user?: unknown;
+    message?: string;
+  };
+  try {
+    data = await res.json();
+  } catch {
+    throw new Error(`Server error (${res.status})`);
+  }
 
   if (!res.ok) {
-    throw new Error(data.message || "Login failed");
+    throw new Error(
+      Array.isArray(data.message)
+        ? data.message.join(", ")
+        : data.message || "Login failed",
+    );
+  }
+
+  if (!data.accessToken || !data.refreshToken) {
+    throw new Error("Invalid response from server");
   }
 
   (await cookies()).set("accessToken", data.accessToken, {
