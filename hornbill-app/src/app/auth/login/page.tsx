@@ -21,12 +21,12 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      setApiError(null);
-      await loginAction(data);
+    setApiError(null);
+    const result = await loginAction(data);
+    if (!result.success) {
+      setApiError(result.error);
+    } else {
       router.push("/");
-    } catch (error: unknown) {
-      setApiError(error instanceof Error ? error.message : "An error occurred");
     }
   };
 

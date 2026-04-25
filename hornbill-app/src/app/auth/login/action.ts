@@ -5,7 +5,13 @@ import { LoginFormData } from "@/lib/schemas/auth.schema";
 
 const API_URL = process.env.API_URL || "http://localhost:3000";
 
-export async function loginAction(formData: LoginFormData) {
+export type LoginResult =
+  | { success: true; user: unknown }
+  | { success: false; error: string };
+
+export async function loginAction(
+  formData: LoginFormData,
+): Promise<LoginResult> {
   let res: Response;
   try {
     res = await fetch(`${API_URL}/auth/login`, {
@@ -14,31 +20,35 @@ export async function loginAction(formData: LoginFormData) {
       body: JSON.stringify(formData),
     });
   } catch {
-    throw new Error("Unable to reach the server. Please try again.");
+    return {
+      success: false,
+      error: "Unable to reach the server. Please try again.",
+    };
   }
 
   let data: {
     accessToken?: string;
     refreshToken?: string;
     user?: unknown;
-    message?: string;
+    message?: string | string[];
   };
   try {
     data = await res.json();
   } catch {
-    throw new Error(`Server error (${res.status})`);
+    return { success: false, error: `Server error (${res.status})` };
   }
 
   if (!res.ok) {
-    throw new Error(
-      Array.isArray(data.message)
+    return {
+      success: false,
+      error: Array.isArray(data.message)
         ? data.message.join(", ")
         : data.message || "Login failed",
-    );
+    };
   }
 
   if (!data.accessToken || !data.refreshToken) {
-    throw new Error("Invalid response from server");
+    return { success: false, error: "Invalid response from server" };
   }
 
   (await cookies()).set("accessToken", data.accessToken, {
@@ -66,5 +76,5 @@ export async function loginAction(formData: LoginFormData) {
     maxAge: 60 * 60 * 24 * 7,
   });
 
-  return data.user;
+  return { success: true, user: data.user };
 }

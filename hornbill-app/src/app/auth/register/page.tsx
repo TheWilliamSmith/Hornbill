@@ -21,12 +21,12 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
-    try {
-      setApiError(null);
-      await registerAction(data);
+    setApiError(null);
+    const result = await registerAction(data);
+    if (!result.success) {
+      setApiError(result.error);
+    } else {
       router.push("/auth/login");
-    } catch (error: unknown) {
-      setApiError(error instanceof Error ? error.message : "An error occurred");
     }
   };
 
