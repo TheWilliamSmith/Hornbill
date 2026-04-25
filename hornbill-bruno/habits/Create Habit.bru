@@ -1,0 +1,26 @@
+meta {
+  name: Create Habit
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/habits
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Sport",
+    "description": "30 minutes minimum",
+    "icon": "🏃",
+    "frequency": "WEEKLY",
+    "targetPerWeek": 5
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -11,14 +11,13 @@ import {
 } from '@nestjs/swagger';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { SignupResponseDto } from '../dto/signup-response.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
+import { RefreshTokenResponseDto } from '../dto/refresh-token-response.dto';
 
 export const AuthSwaggerDecorators = {
-  Controller: () =>
-    applyDecorators(
-      ApiTags('Authentication'),
-    ),
+  Controller: () => applyDecorators(ApiTags('Authentication')),
 
   Signup: () =>
     applyDecorators(
@@ -95,7 +94,8 @@ export const AuthSwaggerDecorators = {
     applyDecorators(
       ApiOperation({
         summary: 'User Login',
-        description: 'Authenticate with email and password. Returns JWT access token (15min) and refresh token (7 days).',
+        description:
+          'Authenticate with email and password. Returns JWT access token (15min) and refresh token (7 days).',
       }),
       ApiBody({
         type: LoginDto,
@@ -137,6 +137,52 @@ export const AuthSwaggerDecorators = {
           properties: {
             statusCode: { type: 'number', example: 401 },
             message: { type: 'string', example: 'Invalid credentials' },
+            error: { type: 'string', example: 'Unauthorized' },
+          },
+        },
+      }),
+      ApiInternalServerErrorResponse({
+        description: 'Internal server error',
+        schema: {
+          type: 'object',
+          properties: {
+            statusCode: { type: 'number', example: 500 },
+            message: { type: 'string', example: 'Internal server error' },
+            error: { type: 'string', example: 'Internal Server Error' },
+          },
+        },
+      }),
+    ),
+
+  Refresh: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'Refresh Tokens',
+        description:
+          'Exchange a valid refresh token for a new access token and a rotated refresh token.',
+      }),
+      ApiBody({
+        type: RefreshTokenDto,
+        description: 'Current refresh token',
+        examples: {
+          example1: {
+            summary: 'Valid refresh token',
+            value: { refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+          },
+        },
+      }),
+      ApiResponse({
+        status: 200,
+        description: 'New access and refresh tokens issued',
+        type: RefreshTokenResponseDto,
+      }),
+      ApiUnauthorizedResponse({
+        description: 'Invalid or expired refresh token',
+        schema: {
+          type: 'object',
+          properties: {
+            statusCode: { type: 'number', example: 401 },
+            message: { type: 'string', example: 'Invalid or expired refresh token' },
             error: { type: 'string', example: 'Unauthorized' },
           },
         },

@@ -1,0 +1,16 @@
+meta {
+  name: Toggle Task
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{baseUrl}}/tasks/tasks/{{taskId}}/toggle
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

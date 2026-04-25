@@ -1,0 +1,16 @@
+meta {
+  name: Get Heatmap
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/habits/{{habitId}}/heatmap?year=2026
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

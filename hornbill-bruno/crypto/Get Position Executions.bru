@@ -1,0 +1,11 @@
+meta {
+  name: Get Position Executions
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/crypto/positions/{{positionId}}/executions
+  body: none
+  auth: inherit
+}

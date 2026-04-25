@@ -1,0 +1,16 @@
+meta {
+  name: Get Discord Webhook
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/notifications/discord
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

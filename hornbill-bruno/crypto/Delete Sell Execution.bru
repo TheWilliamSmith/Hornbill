@@ -1,0 +1,11 @@
+meta {
+  name: Delete Sell Execution
+  type: http
+  seq: 14
+}
+
+delete {
+  url: {{baseUrl}}/crypto/executions/{{executionId}}
+  body: none
+  auth: inherit
+}

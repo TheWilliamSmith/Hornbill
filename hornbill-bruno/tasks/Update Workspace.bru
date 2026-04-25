@@ -1,0 +1,23 @@
+meta {
+  name: Update Workspace
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/tasks/workspaces/{{workspaceId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Maison (updated)",
+    "icon": "🏡"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,24 @@
+services:
+  hornbill-api-prod:
+    image: 423671572921.dkr.ecr.eu-west-3.amazonaws.com/hornbill-api-docker-repo:${IMAGE_VERSION}
+    container_name: hornbill-api-prod
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - hornbill-network-prod
+
+  hornbill-database-prod:
+    container_name: hornbill-database-prod
+    image: postgres:15
+    env_file: .env
+    volumes:
+      - ${DATABASE_DATA_PATH}:/var/lib/postgresql/data
+    expose:
+      - 5432
+    networks:
+      - hornbill-network-prod
+
+networks:
+  hornbill-network-prod:
+    external: true

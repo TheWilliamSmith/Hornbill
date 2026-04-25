@@ -1,0 +1,15 @@
+meta {
+  name: Get All Weight Goals
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/weight/goals
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

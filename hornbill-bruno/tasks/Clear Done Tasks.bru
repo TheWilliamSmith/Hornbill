@@ -1,0 +1,15 @@
+meta {
+  name: Clear Done Tasks
+  type: http
+  seq: 15
+}
+
+delete {
+  url: {{baseUrl}}/tasks/lists/{{listId}}/clear-done
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

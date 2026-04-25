@@ -1,0 +1,20 @@
+meta {
+  name: Delete Position
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/crypto/positions/{{positionId}}
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  positionId: cdbfdb6a-3de2-4233-b5d2-c288887e024e
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

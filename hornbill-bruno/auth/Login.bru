@@ -12,9 +12,13 @@ post {
 
 body:json {
   {
-    "email": "MyEmails@gmail.com",
+    "email": "Myaccount@gmail.com",
     "password": "MyPassword123!"
   }
+}
+
+script:post-response {
+  bru.setEnvVar("accessToken", res.body.accessToken, "dev");
 }
 
 settings {

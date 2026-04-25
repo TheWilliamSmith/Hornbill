@@ -1,0 +1,23 @@
+meta {
+  name: Update Sell Target
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/crypto/targets/{{targetId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "triggerPercent": 200,
+    "sellPercent": 25
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

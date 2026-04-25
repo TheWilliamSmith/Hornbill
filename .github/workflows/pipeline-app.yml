@@ -1,0 +1,239 @@
+name: CICD Hornbill Pipeline App
+
+on:
+  push:
+    branches: "*"
+    paths:
+      - "hornbill-app/**"
+      - .github/workflows/pipeline-app.yml
+  pull_request:
+    branches: "*"
+
+env:
+  NODE_VERSION: 22.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hornbill-app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up PNPM
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build App
+        run: pnpm run build
+
+  build-and-push-docker-image-to-ecr:
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    defaults:
+      run:
+        working-directory: hornbill-app
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Import Secret From Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: ${{ secrets.VAULT_URL }}
+          method: approle
+          path: hornbill_github_action
+          roleId: ${{ secrets.VAULT_ROLE_ID }}
+          secretId: ${{ secrets.VAULT_SECRET_ID }}
+          secrets: |
+            hornbill-secret/data/hornbill-app/aws AWS_ACCESS_KEY_ID | AWS_ACCESS_KEY_ID ;
+            hornbill-secret/data/hornbill-app/aws AWS_ACCESS_TOKEN | AWS_ACCESS_TOKEN ;
+            hornbill-secret/data/hornbill-app/aws AWS_ECR_REPOSITORY | AWS_ECR_REPOSITORY ;
+
+      - name: Get Commit Sha
+        id: vars
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_ACCESS_TOKEN }}
+          aws-region: eu-west-3
+
+      - name: Login to Amazon ECR
+        id: ecr-credentials
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Extract AWS Credentials
+        id: aws-credentials
+        run: |
+          echo "image_uri=${{ steps.ecr-credentials.outputs.registry }}/${{ env.AWS_ECR_REPOSITORY }}" >> $GITHUB_OUTPUT
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./hornbill-app
+          file: ./hornbill-app/Dockerfile
+          push: true
+          tags: |
+            ${{ steps.aws-credentials.outputs.image_uri }}:${{ steps.vars.outputs.short_sha }}
+            ${{ steps.aws-credentials.outputs.image_uri }}:latest
+
+      - name: Docker Image Pushed
+        run: |
+          echo "Docker image pushed to ECR: ${{ steps.aws-credentials.outputs.image_uri }}:${{ steps.vars.outputs.short_sha }}"
+
+  deploy-preprod:
+    runs-on: ubuntu-latest
+    needs: build-and-push-docker-image-to-ecr
+    if: github.ref == 'refs/heads/develop'
+    defaults:
+      run:
+        working-directory: hornbill-app
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Commit Sha
+        id: vars
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Import Secret From Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: ${{ secrets.VAULT_URL }}
+          method: approle
+          path: hornbill_github_action
+          roleId: ${{ secrets.VAULT_ROLE_ID }}
+          secretId: ${{ secrets.VAULT_SECRET_ID }}
+          secrets: |
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_HOST | DEPLOY_HOST ;
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_PATH_PREPROD | DEPLOY_PATH_PREPROD ;
+            hornbill-secret/data/hornbill-app/deploy ENV_FILE_PREPROD | ENV_FILE_PREPROD ;
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_USER | DEPLOY_USER ;
+            hornbill-secret/data/hornbill-app/deploy SSH_PRIVATE_KEY | SSH_PRIVATE_KEY ;
+            hornbill-secret/data/hornbill-app/app API_URL_PREPROD | API_URL ;
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
+
+      - name: Configure SSH Alias
+        run: |
+          mkdir -p ~/.ssh
+          cat >> ~/.ssh/config << EOF
+          Host server 
+            HostName ${{ env.DEPLOY_HOST }}
+            User ${{ env.DEPLOY_USER }}
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Setup Docker Compose File
+        run: |
+          cd deploy/ && mv docker-compose.preprod.yml docker-compose.yml
+
+      - name: Setup Env File
+        run: |
+          cd deploy/
+          touch .env
+          echo "${{ env.ENV_FILE_PREPROD }}" > .env
+          echo "" >> .env
+          echo "IMAGE_VERSION=${{ steps.vars.outputs.short_sha }}" >> .env
+          echo "API_URL=${{ env.API_URL }}" >> .env
+
+      - name: Copy Files to Server
+        run: cd deploy && rsync -avz .env docker-compose.yml Makefile server:${{ env.DEPLOY_PATH_PREPROD }}
+
+      - name: Login to Docker AWS ECR
+        run: |
+          ssh server "AWS_PROFILE=hornbill aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 423671572921.dkr.ecr.eu-west-3.amazonaws.com"
+
+      - name: Deploy Application
+        run: |
+          ssh server "cd ${{ env.DEPLOY_PATH_PREPROD }} && make deploy"
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build-and-push-docker-image-to-ecr
+    if: github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: hornbill-app
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Commit Sha
+        id: vars
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Import Secret From Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: ${{ secrets.VAULT_URL }}
+          method: approle
+          path: hornbill_github_action
+          roleId: ${{ secrets.VAULT_ROLE_ID }}
+          secretId: ${{ secrets.VAULT_SECRET_ID }}
+          secrets: |
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_HOST | DEPLOY_HOST ;
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_PATH_PROD | DEPLOY_PATH_PROD ;
+            hornbill-secret/data/hornbill-app/deploy ENV_FILE_PROD | ENV_FILE_PROD ;
+            hornbill-secret/data/hornbill-app/deploy DEPLOY_USER | DEPLOY_USER ;
+            hornbill-secret/data/hornbill-app/deploy SSH_PRIVATE_KEY | SSH_PRIVATE_KEY ;
+            hornbill-secret/data/hornbill-app/app API_URL_PROD | API_URL ;
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
+
+      - name: Configure SSH Alias
+        run: |
+          mkdir -p ~/.ssh
+          cat >> ~/.ssh/config << EOF
+          Host server
+            HostName ${{ env.DEPLOY_HOST }}
+            User ${{ env.DEPLOY_USER }}
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Setup Docker Compose File
+        run: |
+          cd deploy/ && mv docker-compose.prod.yml docker-compose.yml
+
+      - name: Setup Env File
+        run: |
+          cd deploy/
+          touch .env
+          echo "${{ env.ENV_FILE_PROD }}" > .env
+          echo "" >> .env
+          echo "IMAGE_VERSION=${{ steps.vars.outputs.short_sha }}" >> .env
+          echo "API_URL=${{ env.API_URL }}" >> .env
+
+      - name: Copy Files to Server
+        run: cd deploy && rsync -avz .env docker-compose.yml Makefile server:${{ env.DEPLOY_PATH_PROD }}
+
+      - name: Login to Docker AWS ECR
+        run: |
+          ssh server "AWS_PROFILE=hornbill aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 423671572921.dkr.ecr.eu-west-3.amazonaws.com"
+
+      - name: Deploy Application
+        run: |
+          ssh server "cd ${{ env.DEPLOY_PATH_PROD }} && make deploy"

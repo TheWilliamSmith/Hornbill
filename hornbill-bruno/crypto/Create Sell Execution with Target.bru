@@ -1,0 +1,21 @@
+meta {
+  name: Create Sell Execution with Target
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/crypto/executions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "positionId": "{{positionId}}",
+    "targetId": "{{targetId}}",
+    "quantitySold": 0.002,
+    "sellPrice": 120000,
+    "fees": 1.5
+  }
+}

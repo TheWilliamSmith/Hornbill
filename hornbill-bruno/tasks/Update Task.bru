@@ -1,0 +1,22 @@
+meta {
+  name: Update Task
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/tasks/tasks/{{taskId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "Acheter du lait bio"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

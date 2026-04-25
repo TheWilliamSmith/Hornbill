@@ -1,0 +1,15 @@
+meta {
+  name: Unlog Habit
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/habits/{{habitId}}/log/2026-04-19
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

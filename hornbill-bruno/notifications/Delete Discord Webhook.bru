@@ -1,0 +1,16 @@
+meta {
+  name: Delete Discord Webhook
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/notifications/discord
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

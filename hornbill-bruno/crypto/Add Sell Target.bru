@@ -1,0 +1,27 @@
+meta {
+  name: Add Sell Target
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/crypto/positions/{{positionId}}/targets
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "triggerPercent": 150,
+    "sellPercent": 15
+  }
+}
+
+vars:pre-request {
+  positionId: 38c7e58c-6ae8-45ec-9e98-b308f35ccd08
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
