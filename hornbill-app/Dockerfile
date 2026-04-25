@@ -37,6 +37,8 @@ COPY --from=build /app/public ./public
 RUN chown -R hornbill:hornbill /app
 
 ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 EXPOSE 3000
 
