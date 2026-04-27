@@ -7,6 +7,7 @@ services:
       - NODE_ENV=production
     networks:
       - hornbill-network-prod
+      - nginx-package-manager_proxy-network
 
   hornbill-database-prod:
     container_name: hornbill-database-prod
@@ -18,7 +19,10 @@ services:
       - 5432
     networks:
       - hornbill-network-prod
+      - nginx-package-manager_proxy-network
 
 networks:
   hornbill-network-prod:
+    external: true
+  nginx-package-manager_proxy-network:
     external: true
