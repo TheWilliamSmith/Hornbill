@@ -10,6 +10,7 @@ const routeLabels: Record<string, string> = {
   crypto: "Crypto Tracker",
   tasks: "Tâches",
   habits: "Habitudes",
+  plants: "Mes Plantes",
   notifications: "Notifications",
   settings: "Paramètres",
   profile: "Profile",

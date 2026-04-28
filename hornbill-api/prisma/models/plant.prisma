@@ -1,0 +1,204 @@
+enum PlantStatus {
+    ACTIVE
+    ARCHIVED
+}
+
+enum AcquisitionMode {
+    PURCHASE
+    CUTTING
+    GIFT
+    OTHER
+}
+
+enum ArchiveReason {
+    DEAD
+    GIVEN_AWAY
+    SOLD
+    OTHER
+}
+
+enum PlantLightLevel {
+    FULL_SUN
+    INDIRECT
+    PARTIAL_SHADE
+    SHADE
+}
+
+enum PlantHumidityLevel {
+    LOW
+    MEDIUM
+    HIGH
+}
+
+enum WindowOrientation {
+    NORTH
+    SOUTH
+    EAST
+    WEST
+}
+
+enum PlantCareType {
+    WATERING
+    FERTILIZING
+    REPOTTING
+    MISTING
+    LEAF_CLEANING
+    ROTATION
+    TREATMENT
+    PRUNING
+    OTHER
+}
+
+enum PlantHealthStatus {
+    EXCELLENT
+    GOOD
+    FAIR
+    POOR
+    CRITICAL
+}
+
+enum WishlistPriority {
+    HIGH
+    MEDIUM
+    LOW
+}
+
+model PlantLocation {
+    id          String             @id @default(uuid())
+    userId      String             @map("user_id")
+    name        String
+    orientation WindowOrientation?
+    lightLevel  PlantLightLevel?   @map("light_level")
+    hasRadiator Boolean            @default(false) @map("has_radiator")
+    createdAt   DateTime           @default(now()) @map("created_at")
+    updatedAt   DateTime           @updatedAt() @map("updated_at")
+    user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plants      Plant[]
+
+    @@map("plant_locations")
+}
+
+model Plant {
+    id              String           @id @default(uuid())
+    userId          String           @map("user_id")
+    locationId      String?          @map("location_id")
+    customName      String           @map("custom_name")
+    speciesName     String?          @map("species_name")
+    photoUrl        String?          @map("photo_url")
+    acquiredAt      DateTime?        @map("acquired_at")
+    acquisitionMode AcquisitionMode? @map("acquisition_mode")
+    purchasePrice   Float?           @map("purchase_price")
+    notes           String?
+    status          PlantStatus      @default(ACTIVE)
+    archiveReason   ArchiveReason?   @map("archive_reason")
+    archivedAt      DateTime?        @map("archived_at")
+    createdAt       DateTime         @default(now()) @map("created_at")
+    updatedAt       DateTime         @updatedAt() @map("updated_at")
+    user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    location        PlantLocation?   @relation(fields: [locationId], references: [id])
+    careProfile     PlantCareProfile?
+    reminders       PlantCareReminder[]
+    careLogs        PlantCareLog[]
+    healthLogs      PlantHealthLog[]
+    growthLogs      PlantGrowthLog[]
+
+    @@map("plants")
+}
+
+model PlantCareProfile {
+    id                      String              @id @default(uuid())
+    plantId                 String              @unique @map("plant_id")
+    wateringFrequencyGrowth Int?                @map("watering_frequency_growth")
+    wateringFrequencyRest   Int?                @map("watering_frequency_rest")
+    lightLevel              PlantLightLevel?    @map("light_level")
+    humidity                PlantHumidityLevel?
+    minTemperature          Float?              @map("min_temperature")
+    maxTemperature          Float?              @map("max_temperature")
+    fertilizingFrequency    Int?                @map("fertilizing_frequency")
+    repottingFrequencyMonths Int?               @map("repotting_frequency_months")
+    substrateType           String?             @map("substrate_type")
+    toxicCats               Boolean             @default(false) @map("toxic_cats")
+    toxicDogs               Boolean             @default(false) @map("toxic_dogs")
+    toxicChildren           Boolean             @default(false) @map("toxic_children")
+    createdAt               DateTime            @default(now()) @map("created_at")
+    updatedAt               DateTime            @updatedAt() @map("updated_at")
+    plant                   Plant               @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+    @@map("plant_care_profiles")
+}
+
+model PlantCareReminder {
+    id              String        @id @default(uuid())
+    plantId         String        @map("plant_id")
+    careType        PlantCareType @map("care_type")
+    frequencyGrowth Int           @map("frequency_growth")
+    frequencyRest   Int?          @map("frequency_rest")
+    nextCareAt      DateTime      @map("next_care_at")
+    isActive        Boolean       @default(true) @map("is_active")
+    createdAt       DateTime      @default(now()) @map("created_at")
+    updatedAt       DateTime      @updatedAt() @map("updated_at")
+    plant           Plant         @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+    @@map("plant_care_reminders")
+}
+
+model PlantCareLog {
+    id          String        @id @default(uuid())
+    plantId     String        @map("plant_id")
+    careType    PlantCareType @map("care_type")
+    performedAt DateTime      @default(now()) @map("performed_at")
+    note        String?
+    photoUrl    String?       @map("photo_url")
+    details     Json?
+    createdAt   DateTime      @default(now()) @map("created_at")
+    plant       Plant         @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+    @@map("plant_care_logs")
+}
+
+model PlantHealthLog {
+    id        String            @id @default(uuid())
+    plantId   String            @map("plant_id")
+    status    PlantHealthStatus
+    symptoms  String[]
+    note      String?
+    photoUrl  String?           @map("photo_url")
+    loggedAt  DateTime          @default(now()) @map("logged_at")
+    createdAt DateTime          @default(now()) @map("created_at")
+    plant     Plant             @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+    @@map("plant_health_logs")
+}
+
+model PlantGrowthLog {
+    id         String   @id @default(uuid())
+    plantId    String   @map("plant_id")
+    heightCm   Float?   @map("height_cm")
+    leafCount  Int?     @map("leaf_count")
+    shootCount Int?     @map("shoot_count")
+    spreadCm   Float?   @map("spread_cm")
+    photoUrl   String?  @map("photo_url")
+    note       String?
+    measuredAt DateTime @default(now()) @map("measured_at")
+    createdAt  DateTime @default(now()) @map("created_at")
+    plant      Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+    @@map("plant_growth_logs")
+}
+
+model PlantWishlist {
+    id             String           @id @default(uuid())
+    userId         String           @map("user_id")
+    speciesName    String           @map("species_name")
+    note           String?
+    estimatedPrice Float?           @map("estimated_price")
+    priority       WishlistPriority @default(MEDIUM)
+    link           String?
+    convertedAt    DateTime?        @map("converted_at")
+    convertedPlantId String?        @map("converted_plant_id")
+    createdAt      DateTime         @default(now()) @map("created_at")
+    updatedAt      DateTime         @updatedAt() @map("updated_at")
+    user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("plant_wishlist")
+}

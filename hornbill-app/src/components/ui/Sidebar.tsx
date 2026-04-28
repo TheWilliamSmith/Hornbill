@@ -11,6 +11,7 @@ import {
   Bell,
   LogOut,
   ShieldCheck,
+  Leaf,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -31,6 +32,7 @@ const navItems = [
   { href: "/dashboard/crypto", label: "Crypto Tracker", icon: Bitcoin },
   { href: "/dashboard/tasks", label: "Tâches", icon: CheckSquare },
   { href: "/dashboard/habits", label: "Habitudes", icon: Flame },
+  { href: "/dashboard/plants", label: "Plantes", icon: Leaf },
 ];
 
 const bottomItems = [

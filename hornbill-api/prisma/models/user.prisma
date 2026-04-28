@@ -19,6 +19,9 @@ model User {
     notifications   Notification[]
     taskWorkspaces  TaskWorkspace[]
     habits          Habit[]
+    plants          Plant[]
+    plantLocations  PlantLocation[]
+    plantWishlist   PlantWishlist[]
     discordWebhookUrl String?        @map("discord_webhook_url")
     deactivatedByUser User?          @relation("UserDeactivations", fields: [deactivatedBy], references: [id])
     deactivatedUsers  User[]         @relation("UserDeactivations")

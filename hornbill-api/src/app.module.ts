@@ -10,6 +10,7 @@ import { NotificationModule } from '@modules/notification/notification.module';
 import { TasksModule } from '@modules/tasks/tasks.module';
 import { HabitsModule } from '@modules/habits/habits.module';
 import { AdminModule } from '@modules/admin/admin.module';
+import { PlantsModule } from '@modules/plants/plants.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AdminModule } from '@modules/admin/admin.module';
     TasksModule,
     HabitsModule,
     AdminModule,
+    PlantsModule,
   ],
   controllers: [],
   providers: [],
