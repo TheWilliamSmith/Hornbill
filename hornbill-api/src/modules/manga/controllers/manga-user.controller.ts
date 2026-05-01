@@ -42,10 +42,7 @@ export class MangaUserController {
   }
 
   @Get('collection/:id/volumes')
-  async getCollectionVolumes(
-    @CurrentUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
+  async getCollectionVolumes(@CurrentUser('sub') userId: string, @Param('id') id: string) {
     const entry = await this.collectionService.findOne(userId, id);
     return this.volumeRepo.findByManga(entry.mangaReferenceId);
   }

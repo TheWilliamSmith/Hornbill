@@ -16,7 +16,11 @@ import {
   Check,
 } from "lucide-react";
 import { mangaService } from "@/services/manga.service";
-import type { UserMangaCollection, UserMangaStatus, MangaVolume } from "@/types/manga.type";
+import type {
+  UserMangaCollection,
+  UserMangaStatus,
+  MangaVolume,
+} from "@/types/manga.type";
 import toast from "react-hot-toast";
 
 const STATUS_OPTIONS: Array<{ value: UserMangaStatus; label: string }> = [
@@ -61,7 +65,13 @@ interface VolumeCardProps {
   onToggleRead: () => void;
 }
 
-function VolumeCard({ volume, owned, read, onToggleOwned, onToggleRead }: VolumeCardProps) {
+function VolumeCard({
+  volume,
+  owned,
+  read,
+  onToggleOwned,
+  onToggleRead,
+}: VolumeCardProps) {
   return (
     <div className="flex flex-col gap-1.5">
       {/* Cover */}
@@ -189,13 +199,17 @@ export default function MangaDetailPage() {
 
   const toggleOwned = (vol: number) => {
     setOwnedVolumes((prev) =>
-      prev.includes(vol) ? prev.filter((v) => v !== vol) : [...prev, vol].sort((a, b) => a - b),
+      prev.includes(vol)
+        ? prev.filter((v) => v !== vol)
+        : [...prev, vol].sort((a, b) => a - b),
     );
   };
 
   const toggleRead = (vol: number) => {
     setReadVolumes((prev) =>
-      prev.includes(vol) ? prev.filter((v) => v !== vol) : [...prev, vol].sort((a, b) => a - b),
+      prev.includes(vol)
+        ? prev.filter((v) => v !== vol)
+        : [...prev, vol].sort((a, b) => a - b),
     );
   };
 
@@ -220,7 +234,11 @@ export default function MangaDetailPage() {
   if (!entry) return null;
 
   const manga = entry.mangaReference;
-  const startDate = formatDate(manga.startYear, manga.startMonth, manga.startDay);
+  const startDate = formatDate(
+    manga.startYear,
+    manga.startMonth,
+    manga.startDay,
+  );
   const endDate = formatDate(manga.endYear, manga.endMonth, manga.endDay);
 
   return (
@@ -442,25 +460,37 @@ export default function MangaDetailPage() {
               <div className="space-y-2 mb-4">
                 <div>
                   <div className="flex justify-between text-xs text-black/40 mb-1">
-                    <span className="flex items-center gap-1"><BookMarked size={10} /> Possédés</span>
-                    <span>{ownedVolumes.length}/{volumes.length}</span>
+                    <span className="flex items-center gap-1">
+                      <BookMarked size={10} /> Possédés
+                    </span>
+                    <span>
+                      {ownedVolumes.length}/{volumes.length}
+                    </span>
                   </div>
                   <div className="w-full h-1.5 bg-zinc-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-black rounded-full transition-all"
-                      style={{ width: `${Math.min(100, (ownedVolumes.length / volumes.length) * 100)}%` }}
+                      style={{
+                        width: `${Math.min(100, (ownedVolumes.length / volumes.length) * 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-xs text-black/40 mb-1">
-                    <span className="flex items-center gap-1"><BookOpen size={10} /> Lus</span>
-                    <span>{readVolumes.length}/{volumes.length}</span>
+                    <span className="flex items-center gap-1">
+                      <BookOpen size={10} /> Lus
+                    </span>
+                    <span>
+                      {readVolumes.length}/{volumes.length}
+                    </span>
                   </div>
                   <div className="w-full h-1.5 bg-zinc-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-blue-500 rounded-full transition-all"
-                      style={{ width: `${Math.min(100, (readVolumes.length / volumes.length) * 100)}%` }}
+                      style={{
+                        width: `${Math.min(100, (readVolumes.length / volumes.length) * 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -481,7 +511,10 @@ export default function MangaDetailPage() {
                   Tout lire
                 </button>
                 <button
-                  onClick={() => { setOwnedVolumes([]); setReadVolumes([]); }}
+                  onClick={() => {
+                    setOwnedVolumes([]);
+                    setReadVolumes([]);
+                  }}
                   className="text-xs text-black/50 hover:text-black underline-offset-2 hover:underline transition-colors"
                 >
                   Tout effacer
@@ -536,13 +569,17 @@ export default function MangaDetailPage() {
                   <span className="text-black/50 flex items-center gap-1.5">
                     <BookMarked size={13} /> Possédés
                   </span>
-                  <span className="font-medium">{ownedVolumes.length} / {volumes.length}</span>
+                  <span className="font-medium">
+                    {ownedVolumes.length} / {volumes.length}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-black/50 flex items-center gap-1.5">
                     <BookOpen size={13} /> Lus
                   </span>
-                  <span className="font-medium">{readVolumes.length} / {volumes.length}</span>
+                  <span className="font-medium">
+                    {readVolumes.length} / {volumes.length}
+                  </span>
                 </div>
               </div>
             )}
@@ -598,5 +635,3 @@ export default function MangaDetailPage() {
     </div>
   );
 }
-
-
