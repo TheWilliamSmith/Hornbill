@@ -1,0 +1,117 @@
+enum MangaStatus {
+    PUBLISHING
+    FINISHED
+    CANCELLED
+    HIATUS
+    NOT_YET_RELEASED
+}
+
+enum MangaImportJobType {
+    TOP_10
+    FULL
+    SYNC_VOLUMES
+}
+
+enum MangaImportJobStatus {
+    PENDING
+    RUNNING
+    COMPLETED
+    FAILED
+}
+
+model MangaReference {
+    id                  String                @id @default(uuid())
+    anilistId           Int                   @unique @map("anilist_id")
+    titleRomaji         String                @map("title_romaji")
+    titleEnglish        String?               @map("title_english")
+    titleNative         String?               @map("title_native")
+    description         String?
+    coverImageUrl       String?               @map("cover_image_url")
+    bannerImageUrl      String?               @map("banner_image_url")
+    genres              String[]              @default([])
+    status              MangaStatus           @default(PUBLISHING)
+    chapters            Int?
+    volumes             Int?
+    startYear           Int?                  @map("start_year")
+    startMonth          Int?                  @map("start_month")
+    startDay            Int?                  @map("start_day")
+    endYear             Int?                  @map("end_year")
+    endMonth            Int?                  @map("end_month")
+    endDay              Int?                  @map("end_day")
+    averageScore        Int?                  @map("average_score")
+    popularity          Int?
+    favourites          Int?
+    authorName          String?               @map("author_name")
+    artistName          String?               @map("artist_name")
+    isAdult             Boolean               @default(false) @map("is_adult")
+    importedAt          DateTime              @map("imported_at")
+    updatedFromSourceAt DateTime              @map("updated_from_source_at")
+    createdAt           DateTime              @default(now()) @map("created_at")
+    updatedAt           DateTime              @updatedAt @map("updated_at")
+    userCollections     UserMangaCollection[]
+    volumes_rel         MangaVolume[]
+
+    @@map("manga_references")
+}
+
+model MangaImportJob {
+    id            String               @id @default(uuid())
+    type          MangaImportJobType
+    status        MangaImportJobStatus @default(PENDING)
+    triggeredById String               @map("triggered_by_id")
+    totalPages    Int?                 @map("total_pages")
+    currentPage   Int                  @default(0) @map("current_page")
+    totalImported Int                  @default(0) @map("total_imported")
+    totalUpdated  Int                  @default(0) @map("total_updated")
+    totalSkipped  Int                  @default(0) @map("total_skipped")
+    totalErrors   Int                  @default(0) @map("total_errors")
+    errorLog      String?              @map("error_log")
+    startedAt     DateTime?            @map("started_at")
+    completedAt   DateTime?            @map("completed_at")
+    createdAt     DateTime             @default(now()) @map("created_at")
+    triggeredBy   User                 @relation(fields: [triggeredById], references: [id])
+
+    @@map("manga_import_jobs")
+}
+
+enum UserMangaStatus {
+    PLAN_TO_READ
+    READING
+    COMPLETED
+    ON_HOLD
+    DROPPED
+}
+
+model UserMangaCollection {
+    id               String          @id @default(uuid())
+    userId           String          @map("user_id")
+    mangaReferenceId String          @map("manga_reference_id")
+    ownedVolumes     Int[]           @default([]) @map("owned_volumes")
+    readVolumes      Int[]           @default([]) @map("read_volumes")
+    status           UserMangaStatus @default(PLAN_TO_READ)
+    createdAt        DateTime        @default(now()) @map("created_at")
+    updatedAt        DateTime        @updatedAt @map("updated_at")
+    user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mangaReference   MangaReference  @relation(fields: [mangaReferenceId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, mangaReferenceId])
+    @@map("user_manga_collection")
+}
+
+model MangaVolume {
+    id               String         @id @default(uuid())
+    mangaReferenceId String         @map("manga_reference_id")
+    volumeNumber     Int            @map("volume_number")
+    coverImageUrl    String?        @map("cover_image_url")
+    isbn             String?
+    title            String?
+    releaseYear      Int?           @map("release_year")
+    releaseMonth     Int?           @map("release_month")
+    notes            String?
+    createdAt        DateTime       @default(now()) @map("created_at")
+    updatedAt        DateTime       @updatedAt @map("updated_at")
+    mangaReference   MangaReference @relation(fields: [mangaReferenceId], references: [id], onDelete: Cascade)
+
+    @@unique([mangaReferenceId, volumeNumber])
+    @@map("manga_volumes")
+}

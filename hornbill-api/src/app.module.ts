@@ -11,6 +11,7 @@ import { TasksModule } from '@modules/tasks/tasks.module';
 import { HabitsModule } from '@modules/habits/habits.module';
 import { AdminModule } from '@modules/admin/admin.module';
 import { PlantsModule } from '@modules/plants/plants.module';
+import { MangaModule } from '@modules/manga/manga.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PlantsModule } from '@modules/plants/plants.module';
     HabitsModule,
     AdminModule,
     PlantsModule,
+    MangaModule,
   ],
   controllers: [],
   providers: [],

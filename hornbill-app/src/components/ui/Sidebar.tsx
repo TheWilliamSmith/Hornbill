@@ -12,6 +12,7 @@ import {
   LogOut,
   ShieldCheck,
   Leaf,
+  BookOpen,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -33,6 +34,7 @@ const navItems = [
   { href: "/dashboard/tasks", label: "Tâches", icon: CheckSquare },
   { href: "/dashboard/habits", label: "Habitudes", icon: Flame },
   { href: "/dashboard/plants", label: "Plantes", icon: Leaf },
+  { href: "/dashboard/manga", label: "Manga", icon: BookOpen },
 ];
 
 const bottomItems = [
@@ -112,19 +114,32 @@ export default function Sidebar({ user }: SidebarProps) {
 
       {/* Bottom section */}
       <div className="space-y-1">
-        {/* Admin link */}
+        {/* Admin links */}
         {user.role === "ADMIN" && (
-          <Link
-            href="/admin/users"
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-              pathname.startsWith("/admin")
-                ? "bg-black text-white"
-                : "text-black/60 hover:bg-black/5 hover:text-black"
-            }`}
-          >
-            <ShieldCheck size={16} />
-            <span>Admin</span>
-          </Link>
+          <>
+            <Link
+              href="/admin/users"
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                pathname.startsWith("/admin/users")
+                  ? "bg-black text-white"
+                  : "text-black/60 hover:bg-black/5 hover:text-black"
+              }`}
+            >
+              <ShieldCheck size={16} />
+              <span>Admin</span>
+            </Link>
+            <Link
+              href="/admin/manga"
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                pathname.startsWith("/admin/manga")
+                  ? "bg-black text-white"
+                  : "text-black/60 hover:bg-black/5 hover:text-black"
+              }`}
+            >
+              <BookOpen size={16} />
+              <span>Manga</span>
+            </Link>
+          </>
         )}
 
         {/* Bottom nav items */}
